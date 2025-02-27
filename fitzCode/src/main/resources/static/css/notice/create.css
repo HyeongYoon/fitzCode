@@ -1,0 +1,34 @@
+
+/* 전체 페이지 레이아웃 */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* 사이드바 설정 */
+.adminSidebarWrap {
+    width: 290px;
+    flex-shrink: 0;
+}
+
+.sidebar {
+    position: fixed;
+    width: 290px;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+/* 공지사항 작성 컨텐츠 */
+.notice-container {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 800px;
+    margin: 90px auto 0 auto;
+    height: 822px;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}

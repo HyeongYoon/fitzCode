@@ -42,7 +42,7 @@ public class NoticeController {
     @PostMapping
     public String createNotice(NoticeDTO noticeDTO, Model model) {
         try {
-            noticeDTO.setUserId(1); // 임시 userId 설정
+            noticeDTO.setUserId(40); //////////////////////////////////////////////////////////////// 임시 userId 설정
             noticeService.createNotice(noticeDTO);
             return "redirect:/admin/notice";
         } catch (IllegalArgumentException e) {

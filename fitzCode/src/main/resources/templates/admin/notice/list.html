@@ -3,27 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>공지사항 목록</title>
+    <link rel="stylesheet" th:href="@{/css/admin/managerSidebar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/notice/list.css}">
 </head>
 <body>
 
-<h3>공지사항 목록</h3>
-<a href="/admin/notice/add" th:href="@{/admin/notice/add}">글쓰기</a>
-<table>
-    <thead>
-    <tr>
-        <th>번호</th>
-        <th>제목</th>
-        <th>작성일</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="notice, iterStat : ${notices}">
-        <td th:text="${iterStat.size - iterStat.count + 1}"></td>
-        <td><a th:href="@{/admin/notice/{id}(id=${notice.noticeId})}" th:text="${notice.title}"></a></td>
-        <td th:text="${#temporals.format(notice.createdAt, 'yy/MM/dd')}"></td>
-    </tr>
-    </tbody>
-</table>
+<!-- 사이드바 포함 -->
+<div class="adminSidebarWrap">
+    <div class="sidebar" th:replace="~{fragments/managerSidebar :: sidebar}"></div>
+</div>
+
+<!-- 공지사항 메인 컨텐츠 -->
+<div class="notice-container">
+    <h3>공지사항 목록</h3>
+    <a class="notice-write-btn" href="/admin/notice/add" th:href="@{/admin/notice/add}">글쓰기</a>
+
+    <table class="notice-table">
+        <thead>
+        <tr>
+            <th>-</th>
+            <th>제목</th>
+            <th>작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="notice, iterStat : ${notices}">
+            <td th:text="${iterStat.size - iterStat.count + 1}"></td>
+            <td class="notice-title">
+                <a th:href="@{/admin/notice/{id}(id=${notice.noticeId})}" th:text="${notice.title}"></a>
+            </td>
+            <td th:text="${#temporals.format(notice.createdAt, 'yy/MM/dd')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
 </body>
 </html>

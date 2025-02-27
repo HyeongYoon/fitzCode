@@ -1,0 +1,116 @@
+/* 공지사항 목록 전체 레이아웃 */
+.notice-container {
+    margin-left: 300px;
+    padding: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #333;
+    margin-top: 0;
+    position: relative;
+}
+
+.adminSidebarWrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* 제목 & 글쓰기 버튼을 같은 줄에 정렬 */
+.notice-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* 페이지 제목 */
+.notice-header h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* 글쓰기 버튼 */
+.notice-write-btn {
+    display: inline-block;
+    margin-left: auto;
+    padding: 10px 18px;
+    background-color: #34495e;
+    color: white;
+    border-radius: 5px;
+    font-size: 1em;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.notice-write-btn:hover {
+    background-color: #090000;
+}
+
+/* 테이블 */
+.notice-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-top: 10px;
+}
+
+/* 각 열 너비 설정 */
+.notice-table th:nth-child(1),
+.notice-table td:nth-child(1) {
+    width: 10%;
+    text-align: center;
+}
+
+.notice-table th:nth-child(2) {
+    width: 70%;
+    text-align: center;
+}
+
+.notice-table td:nth-child(2) {
+    width: 70%;
+    text-align: left;
+    padding-left: 15px;
+}
+
+.notice-table th:nth-child(3),
+.notice-table td:nth-child(3) {
+    width: 20%;
+    text-align: center;
+}
+
+/* 테이블 헤더 */
+.notice-table th {
+    background-color: #34495e;
+    color: white;
+    font-weight: bold;
+    padding: 12px;
+    text-align: center;
+}
+
+/* 테이블 데이터 */
+.notice-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.notice-title {
+    text-align: left;
+}
+
+/* 제목 링크 */
+.notice-title a {
+    text-decoration: none;
+    color: #000;
+    font-weight: 500;
+}
+
+.notice-title a:hover {
+    color: #1e70bf;
+}
+
+.notice-table tr:hover {
+    background-color: #f5f5f5;
+}
