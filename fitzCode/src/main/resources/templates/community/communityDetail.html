@@ -458,7 +458,7 @@
                 <span class="like-count">${likeCount || 0}</span>
             `;
 
-            // 댓글 좋아요 이벤트
+            // 댓글 좋아요
             const likeCheckbox = commentDiv.querySelector('.like-checkbox');
             const likeCountSpan = commentDiv.querySelector('.like-count');
             likeCheckbox.addEventListener('change', function () {
@@ -493,7 +493,7 @@
                 commentList.appendChild(commentDiv);
             }
 
-            // 답글 버튼 이벤트
+            // 답글 버튼
             const replyBtn = commentDiv.querySelector('.reply-btn');
             const replyInput = commentDiv.querySelector('.reply-input');
             replyBtn.addEventListener('click', () => {
@@ -511,7 +511,7 @@
                 }
             });
 
-            // 수정 버튼 이벤트
+            // 수정 버튼
             if (isOwner) {
                 const editBtn = commentDiv.querySelector('.edit-btn');
                 const editInput = commentDiv.querySelector('.edit-input');
@@ -548,7 +548,7 @@
                 }
             }
 
-            // 삭제 버튼 이벤트
+            // 삭제 버튼
             if (isOwner) {
                 const deleteBtn = commentDiv.querySelector('.delete-btn');
                 deleteBtn.addEventListener('click', () => {
