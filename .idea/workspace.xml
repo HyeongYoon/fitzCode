@@ -5,8 +5,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7a84a0f-ba81-43ac-aea2-983b9b838dc2" name="변경" comment="[commit] community 수정">
+      <change afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/userProfile.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/userProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/build/reports/problems/problems-report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/controller/CommunityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/controller/CommunityController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/mapper/CommunityMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/mapper/CommunityMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/service/CommunityService.java" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/service/CommunityService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/service/CommunityServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/service/CommunityServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/mybatis/community/CommunityMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/mybatis/community/CommunityMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/communityDetail.css" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/communityDetail.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityDetail.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,10 +50,10 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Enum" />
-        <option value="HTML File" />
         <option value="Interface" />
         <option value="spring-beans.schema" />
         <option value="Class" />
+        <option value="HTML File" />
         <option value="CSS File" />
       </list>
     </option>
@@ -91,7 +102,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "Spring Boot.FitzCodeApplication.executor": "Run",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "feature/community-post",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/doyxxn/fitzCode/fitzCode/src/main/resources/static/img",
     "list.type.of.created.stylesheet": "CSS",
@@ -406,7 +417,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742972881556</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="[commit] community 수정">
+      <option name="closed" value="true" />
+      <created>1742973302117</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1742973302117</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

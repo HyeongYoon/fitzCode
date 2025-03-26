@@ -194,4 +194,38 @@ public class CommunityController {
         communityService.deletePost(postId);
         return "redirect:/community/list";
     }
+
+
+    @GetMapping("/user/profile/{userId}")
+    public String getUserProfile(@PathVariable("userId") int userId, Model model, HttpSession session) {
+        Map<String, Object> userProfile = communityService.getUserProfile(userId);
+        if (userProfile == null) {
+            return "error";
+        }
+
+        List<Map<String, Object>> userPosts = communityService.getPostsByUserId(userId);
+        List<Map<String, Object>> savedPosts = communityService.getSavedPostsByUserId(userId); // 저장한 게시물
+        List<Map<String, Object>> likedPosts = communityService.getLikedPostsByUserId(userId); // 좋아요한 게시물
+
+        UserDTO currentUserDTO = (UserDTO) session.getAttribute("dto");
+        int currentUserId = (currentUserDTO != null) ? currentUserDTO.getUserId() : -1;
+
+        boolean isFollowing = currentUserId != -1 && communityService.isFollowing(currentUserId, userId);
+        boolean isOwnProfile = currentUserId != -1 && currentUserId == userId;
+
+        int followerCount = communityService.getFollowerCount(userId); // 팔로워 수
+        int followingCount = communityService.getFollowingCount(userId); // 팔로잉 수
+
+        model.addAttribute("user", userProfile);
+        model.addAttribute("userPosts", userPosts);
+        model.addAttribute("savedPosts", savedPosts);
+        model.addAttribute("likedPosts", likedPosts);
+        model.addAttribute("currentUser", currentUserDTO);
+        model.addAttribute("isFollowing", isFollowing);
+        model.addAttribute("isOwnProfile", isOwnProfile);
+        model.addAttribute("followerCount", followerCount);
+        model.addAttribute("followingCount", followingCount);
+
+        return "community/userProfile";
+    }
 }

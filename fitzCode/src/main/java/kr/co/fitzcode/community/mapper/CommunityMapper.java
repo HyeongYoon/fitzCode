@@ -37,4 +37,11 @@ public interface CommunityMapper {
     void addFollow(FollowDTO followDTO);
     void deleteFollow(FollowDTO followDTO);
     boolean isFollowing(FollowDTO followDTO);
+    // post 마이페이지
+    Map<String, Object> getUserProfile(int userId);
+    List<Map<String, Object>> getPostsByUserId(int userId);
+    List<Map<String, Object>> getSavedPostsByUserId(int userId);
+    List<Map<String, Object>> getLikedPostsByUserId(int userId);
+    int getFollowerCount(int userId);
+    int getFollowingCount(int userId);
 }

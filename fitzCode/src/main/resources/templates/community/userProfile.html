@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${user['user_name']} + '님의 마이페이지'">마이페이지</title>
+    <link th:fragment="header-head" rel="stylesheet" th:href="@{/css/community/userProfile.css}"/>
+</head>
+<body>
+<div th:replace="~{fragments/header}"></div>
+<div class="main-container">
+    <main>
+        <!-- 프로필 섹션 -->
+        <section class="profile-section">
+            <img th:src="${user['profile_image'] != null ? user['profile_image'] : '/img/default-profile.jpg'}" alt="프로필 이미지" class="profile-img">
+            <div class="profile-info">
+                <div class="profile-header">
+                    <h1 th:text="${user['user_name']}">사용자 이름</h1>
+                    <div>
+                        <!-- 팔로우 버튼: 본인이 아닌 경우에만 표시 -->
+                        <button th:if="${!isOwnProfile}" class="follow-btn" th:data-user-id="${user['user_id']}" th:text="${isFollowing ? '언팔로우' : '팔로우'}">팔로우</button>
+                        <!-- 프로필 수정 버튼: 본인일 경우 표시 -->
+                        <button th:if="${isOwnProfile}" class="edit-profile-btn" th:onclick="|location.href='/mypage/updateProfile'|">프로필 수정</button>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <span>게시물 <strong th:text="${#lists.size(userPosts)}">0</strong></span>
+                    <span>팔로워 <strong th:text="${followerCount}" id="follower-count">0</strong></span>
+                    <span>팔로잉 <strong th:text="${followingCount}">0</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 탭 메뉴 -->
+        <div class="tabs">
+            <div class="tab active" data-tab="posts">게시물</div>
+            <div class="tab" data-tab="saved">저장됨</div>
+            <div class="tab" data-tab="liked">좋아요</div>
+        </div>
+
+        <!-- 게시물 그리드 -->
+        <div class="post-grid" id="posts">
+            <div th:each="post : ${userPosts}" class="post-item" th:onclick="|location.href='/community/detail/${post['post_id']}'|">
+                <img th:src="${post['thumbnail_image_url'] != null ? post['thumbnail_image_url'] : '/img/default-style.jpg'}" alt="게시물 썸네일">
+            </div>
+        </div>
+        <div class="post-grid" id="saved" style="display: none;">
+            <div th:each="savedPost : ${savedPosts}" class="post-item" th:onclick="|location.href='/community/detail/${savedPost['post_id']}'|">
+                <img th:src="${savedPost['thumbnail_image_url'] != null ? savedPost['thumbnail_image_url'] : '/img/default-style.jpg'}" alt="저장된 게시물 썸네일">
+            </div>
+        </div>
+        <div class="post-grid" id="liked" style="display: none;">
+            <div th:each="likedPost : ${likedPosts}" class="post-item" th:onclick="|location.href='/community/detail/${likedPost['post_id']}'|">
+                <img th:src="${likedPost['thumbnail_image_url'] != null ? likedPost['thumbnail_image_url'] : '/img/default-style.jpg'}" alt="좋아요한 게시물 썸네일">
+            </div>
+        </div>
+    </main>
+</div>
+<div th:replace="~{fragments/footer}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const tabs = document.querySelectorAll('.tab');
+        const grids = document.querySelectorAll('.post-grid');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                tabs.forEach(t => t.classList.remove('active'));
+                grids.forEach(grid => grid.style.display = 'none');
+
+                this.classList.add('active');
+                const tabId = this.getAttribute('data-tab');
+                document.getElementById(tabId).style.display = 'grid';
+            });
+        });
+
+        const followBtn = document.querySelector('.follow-btn');
+        if (followBtn) {
+            // 초기 상태에 따라 클래스 설정
+            updateButtonStyle(followBtn);
+
+            followBtn.addEventListener('click', function () {
+                const userId = this.getAttribute('data-user-id');
+                const isFollowing = this.textContent === '언팔로우';
+                const url = isFollowing ? `/api/community/unfollow/${userId}` : `/api/community/follow/${userId}`;
+                const method = isFollowing ? 'DELETE' : 'POST';
+
+                fetch(url, {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.textContent = data.isFollowing ? '언팔로우' : '팔로우';
+                            updateButtonStyle(this); // 버튼 스타일 업데이트
+                            const followerCountSpan = document.getElementById('follower-count');
+                            let currentCount = parseInt(followerCountSpan.textContent);
+                            followerCountSpan.textContent = data.isFollowing ? currentCount + 1 : currentCount - 1;
+                        } else {
+                            alert(data.message || '팔로우/언팔로우 처리 중 오류가 발생했습니다.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('네트워크 오류');
+                    });
+            });
+        }
+
+        // 버튼 스타일을 업데이트하는 함수
+        function updateButtonStyle(button) {
+            if (button.textContent === '팔로우') {
+                button.classList.remove('unfollow');
+                button.classList.add('follow');
+            } else if (button.textContent === '언팔로우') {
+                button.classList.remove('follow');
+                button.classList.add('unfollow');
+            }
+        }
+    });
+</script>
+</body>
+</html>

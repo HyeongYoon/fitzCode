@@ -31,4 +31,11 @@ public interface CommunityService {
     void addFollow(int followerId, int followingId);
     void deleteFollow(int followerId, int followingId);
     boolean isFollowing(int followerId, int followingId);
+    // post 마이페이지
+    Map<String, Object> getUserProfile(int userId);
+    List<Map<String, Object>> getPostsByUserId(int userId);
+    List<Map<String, Object>> getSavedPostsByUserId(int userId);
+    List<Map<String, Object>> getLikedPostsByUserId(int userId);
+    int getFollowerCount(int userId);
+    int getFollowingCount(int userId);
 }
