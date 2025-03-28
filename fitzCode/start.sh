@@ -2,8 +2,8 @@
 
 # 변수 설정
 DOCKER_USERNAME=""
-APP_IMAGE_NAME="fizCodeApp"
-APP_CONTAINER_NAME="fitzCodeWeb"
+APP_IMAGE_NAME="fitzcodeapp"
+APP_CONTAINER_NAME="fitzcodeweb"
 VERSION="latest"
 PORT_HOST=80
 PORT_CONTAINER=8080
