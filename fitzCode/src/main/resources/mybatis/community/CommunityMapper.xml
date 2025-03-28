@@ -11,7 +11,7 @@
         WHERE product_name LIKE CONCAT('%', #{productName}, '%')
     </select>
 
-    <!--  게시물 추가  -->
+    <!-- 게시물 추가 -->
     <insert id="insertPost" parameterType="PostDTO" useGeneratedKeys="true" keyProperty="postId">
         INSERT INTO POST (user_id, style_category, title, content, thumbnail_image_url)
         VALUES (#{userId}, #{styleCategory}, #{title}, #{content}, #{thumbnailImageUrl});
@@ -26,7 +26,7 @@
         </foreach>
     </insert>
 
-    <!--  이미지 추가  -->
+    <!-- 이미지 추가 -->
     <insert id="insertPostImage" parameterType="PostImageDTO">
         INSERT INTO POST_IMAGE (post_image_url, post_id, post_image_order)
         VALUES (#{postImageUrl}, #{postId}, #{postImageOrder});
@@ -60,6 +60,7 @@
         LIMIT 4
     </select>
 
+    <!-- 모든 게시물 조회 -->
     <select id="getAllPosts" parameterType="String" resultType="map">
         SELECT p.post_id, p.user_id, u.user_name, u.profile_image, p.style_category, p.title, p.content,
         p.thumbnail_image_url, p.like_count, p.comment_count, p.view_count, p.save_count,
@@ -74,7 +75,7 @@
         ORDER BY p.post_id DESC
     </select>
 
-    <!-- postId 로 이미지 조회 -->
+    <!-- postId로 이미지 조회 -->
     <select id="getPostImagesByPostId" resultType="PostImageDTO">
         SELECT post_image_url, post_id, post_image_order
         FROM POST_IMAGE
@@ -218,6 +219,23 @@
         SELECT COUNT(*) > 0
         FROM FOLLOW
         WHERE follower_id = #{followerId} AND following_id = #{followingId}
+    </select>
+
+    <!-- 좋아요 수 기준 상위 게시물 조회 -->
+    <select id="getTopLikedPosts" parameterType="int" resultType="map">
+        SELECT
+        p.post_id,
+        p.title,
+        p.thumbnail_image_url,
+        u.user_name,
+        u.profile_image,
+        COUNT(pl.post_id) as like_count
+        FROM POST p
+        JOIN USER u ON p.user_id = u.user_id
+        LEFT JOIN POST_LIKE pl ON p.post_id = pl.post_id
+        GROUP BY p.post_id, p.title, p.thumbnail_image_url, u.user_name, u.profile_image
+        ORDER BY COUNT(pl.post_id) DESC
+        LIMIT #{limit}
     </select>
 
 </mapper>

@@ -37,4 +37,6 @@ public interface CommunityMapper {
     void addFollow(FollowDTO followDTO);
     void deleteFollow(FollowDTO followDTO);
     boolean isFollowing(FollowDTO followDTO);
+    // 좋아요 수 기준 상위 게시물 조회
+    List<Map<String, Object>> getTopLikedPosts(int limit);
 }
