@@ -6,13 +6,6 @@ pipeline {
                 sh """
                     cd fitzCode
                     chmod +x gradlew
-                    # .env 파일 로드 확인
-                    if [ -f .env ]; then
-                        export \$(cat .env | xargs)
-                    else
-                        echo "ERROR: .env file not found in fitzCode directory"
-                        exit 1
-                    fi
                     ./gradlew build -x test
                 """
             }
