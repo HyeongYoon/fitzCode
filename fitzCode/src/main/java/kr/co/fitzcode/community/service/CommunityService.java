@@ -33,4 +33,5 @@ public interface CommunityService {
     boolean isFollowing(int followerId, int followingId);
     // 좋아요 수 기준 상위 게시물 조회
     List<Map<String, Object>> getTopLikedPosts(int limit);
+
 }
