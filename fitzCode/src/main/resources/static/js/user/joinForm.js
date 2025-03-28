@@ -1,24 +1,146 @@
-// 비밀번호와 비밀번호 확인 일치 체크
+// 유효성 검사
 function validateForm() {
     var password = document.getElementById('password').value;
     var passwordConfirm = document.getElementById('password_confirm').value;
     var passwordError = document.getElementById('passwordError');
+    var passwordLengthError = document.getElementById('passwordLengthError');
+    var phoneNumber = document.getElementById('phoneNumber').value;
+    var phoneNumberError = document.getElementById('phoneNumberError');
+    var birthDate = document.getElementsByName('birthDate')[0].value;
+    var birthDateError = document.getElementById('birthDateError');
 
-    if (password !== passwordConfirm) {
-        passwordError.textContent = '비밀번호와 비밀번호 확인이 일치하지 않습니다.';
+    // 비밀번호 길이 검사 (8~16자리)
+    if (password.length < 8 || password.length > 16) {
+        passwordLengthError.textContent = '비밀번호는 최소 8자리 최대 16자리 입니다.';
+        passwordLengthError.style.color = 'red';
         return false;
     } else {
-        passwordError.textContent = '';
+        passwordLengthError.textContent = '';
     }
+
+    // 비밀번호와 비밀번호 확인 일치 체크
+    if (password !== passwordConfirm) {
+        passwordError.textContent = '비밀번호가 일치하지 않습니다.';
+        passwordError.style.color = 'red';
+        return false;
+    } else {
+        passwordError.textContent = '비밀번호가 일치합니다.';
+        passwordError.style.color = 'green';
+    }
+
+    // 전화번호 형식
+    const phoneRegex = /^010-\d{4}-\d{4}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+        phoneNumberError.textContent = '전화번호는 010-XXXX-XXXX 형식이어야 합니다.';
+        phoneNumberError.style.color = 'red';
+        return false;
+    } else {
+        phoneNumberError.textContent = '';
+    }
+
+    // 생년월일 형식
+    const birthDateRegex = /^\d{8}$/;
+    if (!birthDateRegex.test(birthDate)) {
+        birthDateError.textContent = '생년월일은 8자리입니다.';
+        birthDateError.style.color = 'red';
+        return false;
+    } else {
+        birthDateError.textContent = '';
+    }
+
     return true;
 }
 
+// 페이지 로드 시 이벤트
 document.addEventListener("DOMContentLoaded", function () {
+    const phoneNumberInput = document.getElementById('phoneNumber');
+    const passwordInput = document.getElementById('password');
+    const passwordConfirmInput = document.getElementById('password_confirm');
+    const birthDateInput = document.getElementsByName('birthDate')[0];
+    const passwordLengthError = document.getElementById('passwordLengthError');
+    const passwordError = document.getElementById('passwordError');
+    const birthDateError = document.getElementById('birthDateError');
+    let timeoutIdPassword;
+    let timeoutIdBirthDate;
+
+    // 비밀번호 입력 시 실시간 유효성 검사
+    passwordInput.addEventListener('input', function (e) {
+        let password = e.target.value;
+        if (password.length < 8 || password.length > 16) {
+            passwordLengthError.textContent = '비밀번호는 최소 8자리 최대 16자리 입니다.';
+            passwordLengthError.style.color = 'red';
+        } else {
+            passwordLengthError.textContent = '';
+        }
+    });
+
+    // 비밀번호 확인 입력 시 1초 후 일치 여부 검사 (일치 시 바로 표시)
+    passwordConfirmInput.addEventListener('input', function (e) {
+        clearTimeout(timeoutIdPassword);
+
+        let password = document.getElementById('password').value;
+        let passwordConfirm = e.target.value;
+
+        // 비밀번호가 일치하면 바로 메시지 표시
+        if (password === passwordConfirm && passwordConfirm !== '') {
+            passwordError.textContent = '비밀번호가 일치합니다.';
+            passwordError.style.color = 'green';
+        } else {
+            // 일치하지 않으면 1초 후 메시지 표시
+            timeoutIdPassword = setTimeout(function () {
+                if (password !== passwordConfirm) {
+                    passwordError.textContent = '비밀번호가 일치하지 않습니다.';
+                    passwordError.style.color = 'red';
+                }
+            }, 1000);
+        }
+    });
+
+    // 생년월일 입력 시 1초 후 유효성 검사
+    birthDateInput.addEventListener('input', function (e) {
+        clearTimeout(timeoutIdBirthDate);
+
+        let birthDate = e.target.value;
+
+        // 1초 후 유효성 검사
+        timeoutIdBirthDate = setTimeout(function () {
+            const birthDateRegex = /^\d{8}$/;
+            if (!birthDateRegex.test(birthDate)) {
+                birthDateError.textContent = '생년월일은 8자리입니다.';
+                birthDateError.style.color = 'red';
+            } else {
+                birthDateError.textContent = '';
+            }
+        }, 1000);
+    });
+
+    // 전화번호 입력 처리
+    phoneNumberInput.addEventListener('input', function (e) {
+        let value = e.target.value.replace(/[^0-9]/g, ''); // 숫자만 허용
+        if (value.length > 3) {
+            value = value.substring(0, 3) + '-' + value.substring(3); // 010-
+        }
+        if (value.length > 8) {
+            value = value.substring(0, 8) + '-' + value.substring(8, 12); // 010-XXXX-
+        }
+        if (value.length > 13) {
+            value = value.substring(0, 13); // 최대 길이 13자리 (010-XXXX-XXXX)
+        }
+        e.target.value = value;
+    });
+
+    // 입력 시작 시 010- 고정
+    phoneNumberInput.addEventListener('focus', function () {
+        if (!phoneNumberInput.value.startsWith('010-')) {
+            phoneNumberInput.value = '010-';
+        }
+    });
+
+    // 전체 동의 체크 시 모든 항목 체크
     const agreeAll = document.getElementById("agree-all");
     const agreeChecks = document.querySelectorAll(".agree-check[data-required='true']");
     const signupBtn = document.getElementById("signup-btn");
 
-    // 전체 동의 체크 시 모든 항목 체크
     agreeAll.addEventListener("change", function () {
         document.querySelectorAll(".agree-check").forEach(checkbox => {
             checkbox.checked = agreeAll.checked;
@@ -49,7 +171,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 이메일 유효성 검사 함수
 function isValidEmail(email) {
-    // 이메일 형식 정규 표현식
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     return emailRegex.test(email);
 }

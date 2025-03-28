@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     // 계좌 추가 모달 여닫기
     const addAccountModal = document.getElementById("add-account-modalContainer");
     const insertBtn = document.getElementById("insert-btn");
 
     insertBtn.addEventListener("click", (event) => {
-        event.preventDefault();  // 폼 제출 방지
+        event.preventDefault();
 
         // 모달 창 열기
         addAccountModal.classList.remove("hidden");
@@ -30,7 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("add-account-modalCloseButton").addEventListener("click", closeModal);
     document.getElementById("saveBtn").addEventListener("click", closeModal);
 
-
     // 계좌 추가
     document.getElementById("saveBtn").addEventListener("click", () => {
         let accountHolder = document.getElementById("addAccountHolder").value;
@@ -49,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
             isDefault: false
         };
 
-        fetch("http://localhost:8080/mypage/insertAccount", {
+        fetch(`${window.location.origin}/mypage/insertAccount`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -57,9 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(data)
         })
             .then(data => {
-                location.href = "http://localhost:8080/mypage/account";  // 리다이렉트
+                location.href = `${window.location.origin}/mypage/account`;
             })
-
+            .catch(error => {
+                console.error("계좌 추가 실패:", error);
+            });
     });
 
     // 클립보드 계좌 복사
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.info('Action:', e.action);
         console.info('Text:', e.text);
         console.info('Trigger:', e.trigger);
-        alert("계좌번호가 복사되었습니다!")
+        alert("계좌번호가 복사되었습니다!");
 
         e.clearSelection();
     });
@@ -94,5 +94,4 @@ document.addEventListener("DOMContentLoaded", () => {
         console.error('Action:', e.action);
         console.error('Trigger:', e.trigger);
     });
-
 });

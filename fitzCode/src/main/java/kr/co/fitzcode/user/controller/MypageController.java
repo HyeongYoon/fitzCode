@@ -6,10 +6,12 @@ import kr.co.fitzcode.common.util.SecurityUtils;
 import kr.co.fitzcode.user.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Slf4j
@@ -19,6 +21,10 @@ import java.util.List;
 public class MypageController {
     private final SecurityUtils securityUtils;
     private final MypageService mypageService;
+
+    // base-url 값
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     // 내 프로필
     @GetMapping("/myProfile")
@@ -35,7 +41,6 @@ public class MypageController {
     // 프로필 수정 폼으로 이동
     @GetMapping("/updateProfile")
     public String updateProfile(Model model) {
-
         int userId = securityUtils.getUserId();
         UserDTO userDTO = mypageService.getMyInfo(userId);
         model.addAttribute("dto", userDTO);
@@ -95,8 +100,8 @@ public class MypageController {
         UserDTO userDTO = mypageService.getMyInfo(userId);
         model.addAttribute("dto", userDTO);
 
-        // 로그인 인증 후 갈 페이지 session 에 담기
-        String targetUrl = "http://localhost:8080/mypage/verifiedUser";
+        // 로그인 인증 후 갈 페이지 session에 담기
+        String targetUrl = baseUrl + "/mypage/verifiedUser";
         request.getSession().setAttribute("prevPage", targetUrl);
         return "user/mypage/verifyIdentity";
     }
@@ -126,5 +131,4 @@ public class MypageController {
         model.addAttribute("list", userCouponList);
         return "user/mypage/mycoupon";
     }
-
 }

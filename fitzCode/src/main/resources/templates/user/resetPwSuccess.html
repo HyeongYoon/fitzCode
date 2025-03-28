@@ -25,7 +25,6 @@
     color: white;
   }
 
-
   button {
     margin-top:40px;
     background-color: #2f2f32;  /* 버튼 배경 색 */
@@ -86,7 +85,6 @@
     font-weight: 500;
     color: #535353;
   }
-
 </style>
 <body>
 
@@ -97,15 +95,14 @@
   <br><br><br>
   <img class="check-img" src="/img/unlocked.png" alt="">
   <p>비밀번호 재설정 완료</p>
-  <h3 th:text="${userName} + ' 님의 비밀번호 재설정이 '"></h3>
+  <h3 th:text="${userEmail} + ' 계정의 비밀번호 재설정이 '"></h3>
   <p class="user">정상적으로 완료되었습니다</p>
   <div class="box">
-    * 개인정보 내역 및 수정은&nbsp;<p style="color: red; font-size: 18px;">마이페이지</p>에서 확인 가능합니다.
+    * 개인정보 내역 및 수정은 <p style="color: red; font-size: 18px;">마이페이지</p>에서 확인 가능합니다.
   </div>
   <button>
     <a th:href="@{/login}" style="">로그인 하러가기</a>
   </button>
-
 </div>
 
 <!-- footer -->

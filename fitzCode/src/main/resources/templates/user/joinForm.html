@@ -15,19 +15,19 @@
     <div class="signup-container">
         <h2>회원가입</h2>
         <br><br>
-        <form th:action="joinForm" method="post" id="signupForm" onsubmit="return validateForm()" th:object="${dto}">
+        <form th:action="@{/joinForm}" method="post" id="signupForm" onsubmit="return validateForm()" th:object="${dto}">
             <div class="form-group">
                 <label for="email">이메일 (ID)</label>
                 <input type="email" id="email" name="email" th:field="*{email}" required placeholder="이메일 입력">   
                 <button type="button" onclick="checkEmail()" class="btn-email">중복 확인</button>
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></span>
                 <span id="emailMessage" class="message"></span>
-                <!--                <span th:if="${emailCheckError}" style="color: red; font-size: 12px;" th:text="${emailCheckError}"></span>-->
             </div>
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" required placeholder="비밀번호 입력 (최소 8자 이상 최대 16자)">
+                <input type="password" id="password" name="password" required placeholder="비밀번호 입력 (8~16자)">
                 <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span>
+                <span id="passwordLengthError" class="message"></span>
             </div>
             <div class="form-group">
                 <label for="password_confirm">비밀번호 확인</label>
@@ -43,20 +43,19 @@
                 <input type="text" id="nickname" name="nickname" required>   
                 <button type="button" onclick="checkNickname()" class="btn-nickname">중복 확인</button>
                 <span id="nicknameMessage" class="message"></span>
-                <!--                <span th:if="${nickNameCheckError}" style="color: red; font-size: 12px;" th:text="${nickNameCheckError}"></span>-->
             </div>
             <div class="form-group">
                 <label for="phoneNumber">전화번호</label>
-                <input type="text" id="phoneNumber" name="phoneNumber" required placeholder="전화번호 입력 ('-' 포함 13자리 입력)">
-                <!--                <span th:if="${phoneNumberCheckError}" style="color: red; font-size: 12px;" th:text="${phoneNumberCheckError}"></span>-->
+                <input type="text" id="phoneNumber" name="phoneNumber" required placeholder="010-0000-0000" value="010-" maxlength="13">
+                <span id="phoneNumberError" class="message"></span>
             </div>
-
             <div class="form-group">
                 <label for="birthDate">생년월일</label>
                 <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="error-message"></span>
                 <div class="birthdate-inputs" id="birthDate">
-                    <input type="text" name="birthDate" required placeholder="생년월일 입력 (8자리)">
+                    <input type="text" name="birthDate" required placeholder="생년월일 입력 (19980204)" maxlength="8">
                 </div>
+                <span id="birthDateError" class="message"></span>
             </div>
             <br>
             <!-- 약관 동의 섹션 -->
@@ -98,7 +97,6 @@
             </div>
             <button type="submit" id="signup-btn" class="signup-btn" onclick="save()" disabled>회원가입</button>
         </form>
-
     </div>
     <br>
 

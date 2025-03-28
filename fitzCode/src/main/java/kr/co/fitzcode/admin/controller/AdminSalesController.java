@@ -80,7 +80,7 @@ public class AdminSalesController {
 
         log.debug("totalIncome: {}, lastMonthIncome: {}, predictedIncome: {}, expenseGrowthRate: {}, searchRanking: {}",
                 totalIncome, lastMonthIncome, predictedIncome, expenseGrowthRate, model.getAttribute("searchRanking"));
-        return "/admin/sales/salesStatus";
+        return "admin/sales/salesStatus";
     }
 
     @GetMapping("/ranking")

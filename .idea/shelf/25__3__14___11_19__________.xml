@@ -1,9 +1,0 @@
-<changelist name="25__3__14__오전_11_19,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]" date="1741918760848" recycled="false" toDelete="true">
-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__14__오전_11_19,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/shelved.patch" />
-  <option name="DESCRIPTION" value="25. 3. 14. 오전 11:19, 체크아웃 전에 커밋되지 않은 변경 내용 [변경]" />
-  <binary>
-    <option name="BEFORE_PATH" value="fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
-    <option name="AFTER_PATH" value="fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
-    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/25__3__14__오전_11_19,_체크아웃_전에_커밋되지_않은_변경_내용_[변경]/buildOutputCleanup.lock" />
-  </binary>
-</changelist>

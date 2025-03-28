@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>fitzCode</title>
+  <title>FitzCode</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
@@ -22,8 +22,6 @@
 
     // 문의 상태 개수 데이터
     const inquiryStatusCounts = /*[[${inquiryStatusCounts}]]*/ {};
-    console.log("inquiryStatusCounts: ");
-    console.log(inquiryStatusCounts);
 
     // 상태 코드를 한글로 변환
     function convertStatusToKorean(status) {
@@ -62,6 +60,34 @@
       };
 
       // 차트 설정
+      const config = {
+        type: 'doughnut',
+        data: data,
+        options: {
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top',
+            },
+            title: {
+              display: false,
+              text: '1대1 문의 상태'
+            }
+          }
+        },
+      };
+
+      // DOM 로드 후 차트 초기화
+      document.addEventListener('DOMContentLoaded', function() {
+        const ctx = document.getElementById('inquiryDoughnutChart');
+        if (ctx) {
+          try {
+            new Chart(ctx.getContext('2d'), config);
+          } catch (error) {
+            console.error('Error initializing chart:', error);
+          }
+        }
+      });
     }
 
   </script>
