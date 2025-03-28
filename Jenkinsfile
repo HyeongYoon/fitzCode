@@ -1,6 +1,15 @@
 pipeline {
     agent any
     stages {
+            stage('test') {
+                steps {
+                    sh """
+                       gradle -v
+                    """
+                }
+            }
+
+
         stage('Build') {
             steps {
                 sh """
