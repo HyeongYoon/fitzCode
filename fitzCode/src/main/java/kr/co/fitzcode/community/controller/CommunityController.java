@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,6 +44,7 @@ public class CommunityController {
         }
 
         model.addAttribute("posts", posts);
+        model.addAttribute("isLoggedIn", userDTO != null); // 로그인 여부 추가
         return "community/communityList";
     }
 
@@ -198,6 +200,7 @@ public class CommunityController {
     // 좋아요 수 기준 상위 4개 스타일 조회
     @GetMapping("/api/styles")
     @ResponseBody
+    @PreAuthorize("permitAll()") // 인증 없이 접근 허용
     public ResponseEntity<List<Map<String, Object>>> getTopLikedStyles(
             @RequestParam(value = "sort", defaultValue = "likes") String sort,
             @RequestParam(value = "limit", defaultValue = "4") int limit,

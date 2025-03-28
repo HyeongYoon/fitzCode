@@ -50,9 +50,9 @@
                 </div>
                 <div class="card-content">
                     <span class="card-content-profile">
-                        <img th:src="${post['profile_image'] != null} ? ${post['profile_image']} : '/img/default-profile.jpg'"
+                        <img th:src="${post['profile_image'] != null} ? ${post['profile_image']} : '/img/default-profile.png'"
                              alt="프로필 이미지"
-                             th:onerror="'this.src=\'/img/default-profile.jpg\''"/>
+                             th:onerror="'this.src=\'/img/default-profile.png\''"/>
                     </span>
                     <span th:text="${post.user_name}"></span>
                 </div>
@@ -91,9 +91,19 @@
             }
         });
 
+        // 로그인 여부 확인
+        const isLoggedIn = /*[[${isLoggedIn}]]*/ false;
+
         // 좋아요 체크박스 이벤트 처리
         document.querySelectorAll('.like-checkbox').forEach(checkbox => {
             checkbox.addEventListener('change', function () {
+                if (!isLoggedIn) {
+                    alert('로그인이 필요합니다.');
+                    this.checked = !this.checked; // 체크 상태 복원
+                    window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                    return;
+                }
+
                 const postId = this.getAttribute('data-post-id');
                 const isChecked = this.checked;
                 const url = isChecked ? `/api/community/like/${postId}` : `/api/community/unlike/${postId}`;
@@ -106,14 +116,22 @@
                     body: JSON.stringify({ postId: postId })
                 })
                     .then(response => {
+                        if (response.status === 401) {
+                            alert('로그인이 필요합니다.');
+                            window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                            return;
+                        }
                         if (!response.ok) {
-                            throw new Error('Network response was not ok');
+                            // 응답이 JSON이 아닌 경우를 처리
+                            return response.text().then(text => {
+                                throw new Error(`좋아요 처리 실패: ${response.status} ${response.statusText}, Response: ${text}`);
+                            });
                         }
                         return response.json();
                     })
-                    .then(success => {
-                        if (!success) {
-                            alert('좋아요 처리에 실패했습니다.');
+                    .then(data => {
+                        if (!data.success) {
+                            alert(data.message || '좋아요 처리에 실패했습니다.');
                             this.checked = !isChecked;
                         }
                     })
