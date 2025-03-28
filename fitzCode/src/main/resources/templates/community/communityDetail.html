@@ -18,7 +18,6 @@
                 <a th:href="@{/community/user/profile/{userId}(userId=${post['user_id']})}" class="username-link">
                     <strong th:text="${username}">사용자: </strong>
                 </a>
-                <!-- 본인이 아닌 경우에만 팔로우 버튼 표시 -->
                 <img id="followBtn"
                      th:if="${currentUser != null and currentUser.userId != post['user_id']}"
                      th:src="${isFollowing ? '/img/removeuser.png' : '/img/adduser.png'}"

@@ -7,8 +7,9 @@
     <list default="true" id="f7a84a0f-ba81-43ac-aea2-983b9b838dc2" name="변경" comment="[commit] community 수정">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/communityList.css" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/communityList.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityDetail.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityDetail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/userProfile.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/userProfile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityList.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityList.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -167,7 +168,8 @@
       <workItem from="1742805840769" duration="2675000" />
       <workItem from="1742808526858" duration="37000" />
       <workItem from="1742808567721" duration="39158000" />
-      <workItem from="1742978624187" duration="777000" />
+      <workItem from="1742978624187" duration="839000" />
+      <workItem from="1742979709544" duration="1228000" />
     </task>
     <task id="LOCAL-00001" summary="0310 소셜로그인(네이버)">
       <option name="closed" value="true" />
@@ -425,7 +427,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742978617379</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="[commit] community 수정">
+      <option name="closed" value="true" />
+      <created>1742979648915</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1742979648915</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

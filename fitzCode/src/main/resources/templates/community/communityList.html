@@ -53,7 +53,9 @@
                          alt="프로필 이미지"
                          th:onerror="'this.src=\'/img/default-profile.jpg\''"/>
                 </span>
-                    <span th:text="${post.user_name}"></span>
+                    <a th:href="@{/community/user/profile/{userId}(userId=${post['user_id']})}" class="username-link">
+                        <span th:text="${post.user_name}" ></span>
+                    </a>
                 </div>
                 <div class="card-footer">
                     <p th:text="${post.title}">스타일 테스트입니다 - 제목</p>
@@ -107,20 +109,20 @@
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Network response was not ok');
+                        throw new Error('response.ok 에러');
                     }
                     return response.json();
                 })
                 .then(success => {
                     if (!success) {
-                        alert('좋아요 처리에 실패했습니다.');
+                        alert('좋아요 처리에 실패');
                         this.checked = !isChecked;
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
                     this.checked = !isChecked;
-                    alert('네트워크 오류가 발생했습니다.');
+                    alert('네트워크 오류가 발생');
                 });
         });
     });
