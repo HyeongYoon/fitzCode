@@ -1,10 +1,13 @@
 package kr.co.fitzcode.community.controller;
 
-import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpSession;
 import kr.co.fitzcode.common.dto.*;
 import kr.co.fitzcode.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +44,7 @@ public class CommunityController {
         }
 
         model.addAttribute("posts", posts);
+        model.addAttribute("isLoggedIn", userDTO != null); // 로그인 여부 추가
         return "community/communityList";
     }
 
@@ -92,7 +96,6 @@ public class CommunityController {
     // 상세 페이지 이동
     @GetMapping("/detail/{postId}")
     public String getPostDetail(@PathVariable("postId") int postId, Model model, HttpSession session) {
-        // 게시물 정보 조회
         Map<String, Object> post = communityService.getPostDetail(postId);
         if (post == null) {
             return "error";
@@ -121,7 +124,6 @@ public class CommunityController {
         boolean isSaved = currentUserId != -1 && communityService.isSaved(postId, currentUserId);
         int saveCount = communityService.countPostSaves(postId);
 
-        // 모델에 데이터 추가..
         model.addAttribute("post", post);
         model.addAttribute("productTags", productTags);
         model.addAttribute("otherStyles", otherStyles);
@@ -193,5 +195,31 @@ public class CommunityController {
     public String deletePost(@PathVariable("postId") int postId) {
         communityService.deletePost(postId);
         return "redirect:/community/list";
+    }
+
+    // 좋아요 수 기준 상위 4개 스타일 조회
+    @GetMapping("/api/styles")
+    @ResponseBody
+    @PreAuthorize("permitAll()") // 인증 없이 접근 허용
+    public ResponseEntity<List<Map<String, Object>>> getTopLikedStyles(
+            @RequestParam(value = "sort", defaultValue = "likes") String sort,
+            @RequestParam(value = "limit", defaultValue = "4") int limit,
+            HttpSession session) {
+        try {
+            UserDTO userDTO = (UserDTO) session.getAttribute("dto");
+            int userId = (userDTO != null) ? userDTO.getUserId() : -1;
+
+            List<Map<String, Object>> posts = communityService.getTopLikedPosts(limit);
+            for (Map<String, Object> post : posts) {
+                int postId = (int) post.get("post_id");
+                boolean isLiked = userId != -1 && communityService.isLiked(postId, userId);
+                post.put("isLiked", isLiked);
+            }
+
+            return ResponseEntity.ok(posts);
+        } catch (Exception e) {
+            log.error("인기 스타일 조회 중 오류 발생: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

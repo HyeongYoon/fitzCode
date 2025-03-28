@@ -269,4 +269,10 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
         return communityMapper.isFollowing(followDTO);
     }
+
+    @Override
+    public List<Map<String, Object>> getTopLikedPosts(int limit) {
+        List<Map<String, Object>> posts = communityMapper.getTopLikedPosts(limit);
+        return posts != null ? posts : Collections.emptyList();
+    }
 }

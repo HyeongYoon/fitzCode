@@ -13,28 +13,23 @@
         .product-item img { width: 100%; height: 300px; object-fit: cover; }
         .product-name { font-size: 14px; margin-top: 5px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
         .product-price { font-size: 14px; margin-top: 5px; color: #666; }
-
         .product-title {
             font-size: 20px;
             font-weight: bold;
-            margin-bottom: 0;
+            margin-bottom: 10px;
             color: #333;
             text-align: left;
             padding-left: 10px;
         }
-
-        /* 섹션 간 간격을 50px 설정 */
         .product-section {
             max-width: 1200px;
             margin: 100px auto 0 auto;
             text-align: center;
             position: relative;
         }
-
         .product-section:first-child {
             margin-top: 0;
         }
-        /* 할인율 (우측 상단) */
         .discount-badge {
             position: absolute;
             top: 10px;
@@ -47,11 +42,102 @@
             z-index: 11;
             font-weight: bold;
         }
-
         .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background-color: transparent; color: #ccc; border: none; padding: 10px; cursor: pointer; font-size: 18px; z-index: 10; }
         .prev-btn { left: 0; }
         .next-btn { right: 0; }
         .slider-btn:hover { color: #999; }
+
+        .style-section {
+            max-width: 1200px;
+            margin: 100px auto 0 auto;
+            text-align: center;
+            position: relative;
+        }
+        .style-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+            margin-bottom: 120px;
+        }
+        .card {
+            flex: 0 0 285px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #fff;
+            cursor: pointer;
+        }
+        .card-header {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+        .card-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card-content-profile {
+            width: 40px;
+            height: 40px;
+            padding: 1px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+        }
+        .card-content-profile img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .card-content span {
+            font-size: 14px;
+            font-weight: bolder;
+            margin-top: 0;
+        }
+        .label_container {
+            display: block;
+            cursor: pointer;
+            user-select: none;
+        }
+        .label_container input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .label_container svg {
+            position: relative;
+            top: 0;
+            left: 0;
+            height: 30px;
+            width: 30px;
+            transition: all 0.2s;
+            fill: #666;
+        }
+        .label_container input:checked ~ svg {
+            fill: #E3474F;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        a:hover,
+        a:focus {
+            background-color: transparent;
+            color: inherit;
+            text-decoration: none;
+        }
 
         @media (max-width: 768px) {
             .product-item { width: 225px; }
@@ -59,6 +145,14 @@
             .slider-btn { padding: 8px; font-size: 16px; }
             .product-name, .product-price { font-size: 12px; }
             .discount-badge { font-size: 12px; padding: 3px 8px; }
+            .card { flex: 0 0 225px; }
+            .card-header { height: 200px; }
+            .card-content span { font-size: 12px; }
+            .label_container svg { height: 25px; width: 25px; }
+        }
+        @media (max-width: 480px) {
+            .card { flex: 0 0 200px; }
+            .card-header { height: 150px; }
         }
     </style>
 </head>
@@ -85,6 +179,12 @@
             <div class="slider-container" id="discountSliderContainer"></div>
         </div>
     </div>
+
+    <!-- 스타일 섹션 추가 -->
+    <div class="style-section">
+        <h2 class="product-title">인기 스타일</h2>
+        <div class="style-grid" id="styleGridContainer"></div>
+    </div>
 </div>
 
 <div th:replace="~{fragments/footer}"></div>
@@ -108,7 +208,7 @@
         sliders[section].container = sliderContainer;
 
         if (sliders[section].total === 0) {
-            sliderContainer.innerHTML = '<p>표시할 상품이 없습니다.</p>';
+            sliderContainer.innerHTML = '<p style="color: #666; font-size: 16px;">표시할 상품이 없습니다.</p>';
             return;
         }
 
@@ -127,7 +227,6 @@
             const discountedPrice = section === 'discount' ? product.discountedPrice : null;
             const discountPercentage = section === 'discount' ? product.discountPercentage : null;
 
-            // 할인율
             const discountBadge = section === 'discount' && discountPercentage && discountPercentage !== '0' ?
                 `<span class="discount-badge">${discountPercentage}%</span>` : '';
 
@@ -165,17 +264,123 @@
         sliderContainer.style.transform = `translateX(-${slider.index * slideWidth}px)`;
     }
 
+    // 스타일 섹션 초기화 함수
+    function initStyleSection(posts) {
+        const styleGridContainer = document.getElementById('styleGridContainer');
+        styleGridContainer.innerHTML = '';
+
+        if (!posts || posts.length === 0) {
+            styleGridContainer.innerHTML = '<p style="color: #666; font-size: 16px;">표시할 스타일이 없습니다.</p>';
+            return;
+        }
+
+        posts.slice(0, 4).forEach(post => { // 상위 4개만 표시
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-header">
+                    <a href="/community/detail/${post.post_id}">
+                        <img src="${post['thumbnail_image_url'] || '/img/default-style.jpg'}" alt="스타일 이미지" onerror="this.src='/img/default-style.jpg'"/>
+                    </a>
+                </div>
+                <div class="card-content">
+                    <div style="display: flex; align-items: center;">
+                        <span class="card-content-profile">
+                            <img src="${post['profile_image'] || '/img/default-profile.png'}" alt="프로필 이미지" onerror="this.src='/img/default-profile.png'"/>
+                        </span>
+                        <span>${post.user_name}</span>
+                    </div>
+                    <label class="label_container">
+                        <input type="checkbox" class="like-checkbox" data-post-id="${post.post_id}" ${post.isLiked ? 'checked' : ''}>
+                        <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
+                        </svg>
+                    </label>
+                </div>
+            `;
+            styleGridContainer.appendChild(card);
+        });
+
+        // 좋아요 체크박스 이벤트 처리
+        document.querySelectorAll('.like-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                const postId = this.getAttribute('data-post-id');
+                const isChecked = this.checked;
+                const url = isChecked ? `/api/community/like/${postId}` : `/api/community/unlike/${postId}`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ postId: postId })
+                })
+                    .then(response => {
+                        if (response.status === 400) {
+                            alert('로그인이 필요합니다.');
+                            window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                            return;
+                        }
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data.success) {
+                            alert(data.message || '좋아요 처리에 실패했습니다.');
+                            this.checked = !isChecked;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        this.checked = !isChecked;
+                        console.error("네트워크에러 -> 로그인 안함")
+                    });
+            });
+        });
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
+        // 기존 추천 상품 및 할인 상품 로드
         fetch('/api/pick-products', { credentials: 'include' })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('추천 상품 로드 실패');
+                return response.json();
+            })
             .then(data => initSlider('pick', 'pickSliderContainer', data))
-            .catch(() => initSlider('pick', 'pickSliderContainer', []));
+            .catch(error => {
+                console.error('추천 상품 로드 중 오류:', error);
+                initSlider('pick', 'pickSliderContainer', []);
+            });
 
         fetch('/api/discount-products', { credentials: 'include' })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error('할인 상품 로드 실패');
+                return response.json();
+            })
             .then(data => initSlider('discount', 'discountSliderContainer', data))
-            .catch(() => initSlider('discount', 'discountSliderContainer', []));
+            .catch(error => {
+                console.error('할인 상품 로드 중 오류:', error);
+                initSlider('discount', 'discountSliderContainer', []);
+            });
+
+        // 스타일 데이터 로드 (좋아요 수 기준 상위 4개)
+        fetch('/community/api/styles?sort=likes&limit=4', { credentials: 'include' })
+            .then(response => {
+                if (!response.ok) {
+                    // 응답이 JSON이 아닌 경우를 처리
+                    return response.text().then(text => {
+                        throw new Error(`인기 스타일 로드 실패: ${response.status} ${response.statusText}, Response: ${text}`);
+                    });
+                }
+                return response.json();
+            })
+            .then(data => initStyleSection(data))
+            .catch(error => {
+                console.error('인기 스타일 로드 중 오류:', error);
+                initStyleSection([]);
+            });
     });
 </script>
 </body>
-</html>

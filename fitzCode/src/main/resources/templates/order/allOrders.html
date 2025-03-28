@@ -31,7 +31,7 @@
                 <table>
                     <tbody>
                     <tr th:each="detail : ${orderDetails}">
-                        <td><img th:src="${detail.imageUrl}" alt="Product Image" width="100"></td>
+                        <td><div class="productImage"><img th:src="${detail.imageUrl}" alt="Product Image" width="100"></div></td>
                         <td style="width: 280px; text-align: justify">
                             <div class="orderInfo">
                                 <h4 th:text="${detail.productName}" style="margin: 10px 0px"/>

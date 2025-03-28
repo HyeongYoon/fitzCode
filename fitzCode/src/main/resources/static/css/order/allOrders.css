@@ -1,4 +1,8 @@
 
+body {
+    font-family: 'Apple SD Gothic Neo', sans-serif;
+}
+
 .order-summary {
     background: #f4f4f4;
     padding: 15px;
@@ -32,7 +36,7 @@ th {
     color: white;
 }
 
-img {
+.productImage {
     max-width: 80px;
     border-radius: 5px;
 }
