@@ -4,6 +4,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
+                    docker cp /home/ubuntu/.env jenkins:/var/jenkins_home/.env
                     cd fitzCode
                     chmod +x gradlew
                     export GRADLE_WRAPPER_DIR=fitzCode/gradle/wrapper
