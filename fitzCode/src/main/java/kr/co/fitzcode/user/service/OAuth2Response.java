@@ -1,7 +1,7 @@
 package kr.co.fitzcode.user.service;
 
 public interface OAuth2Response {
-    // 제공자 .. naver, goolge, kkao
+    // 제공자 .. naver, google, kakao
     String getProvider();
     // 제공자를 발급해주는 아이디
     String getProviderId();
