@@ -4,17 +4,9 @@ pipeline {
         stage('Build') {
             steps {
                 sh """
-                    # fitzCode 디렉토리 생성
-                    mkdir -p /var/jenkins_home/workspace/fitzcode-pipeline/fitzCode/
-                    # .env 파일 복사
-                    if [ -f /home/ubuntu/.env ]; then
-                        cp /home/ubuntu/.env /var/jenkins_home/workspace/fitzcode-pipeline/fitzCode/
-                    else
-                        echo "ERROR: /home/ubuntu/.env file not found"
-                        exit 1
-                    fi
                     cd fitzCode
                     chmod +x gradlew
+                    # .env 파일 로드 확인
                     if [ -f .env ]; then
                         export \$(cat .env | xargs)
                     else
