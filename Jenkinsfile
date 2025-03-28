@@ -1,29 +1,23 @@
 pipeline {
     agent any
     stages {
-            stage('test') {
-                steps {
-                    sh """
-                       gradle -v
-                    """
-                }
-            }
-
-
         stage('Build') {
             steps {
                 sh """
                     cd fitzCode
                     chmod +x gradlew
+                    export GRADLE_WRAPPER_DIR=fitzCode/gradle/wrapper
                     ./gradlew build -x test
                 """
             }
         }
         stage('Deploy') {
             steps {
-                sh 'cd fitzCode'
-                sh 'chmod +x start.sh'
-                sh './start.sh'
+                sh """
+                    cd fitzCode
+                    chmod +x start.sh
+                    ./start.sh
+                """
             }
         }
     }
