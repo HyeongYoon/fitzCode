@@ -6,9 +6,6 @@ pipeline {
                 sh """
                     cd fitzCode
                     chmod +x gradlew
-                    set -a
-                    . .env
-                    set +a
                     ./gradlew build -x test
                 """
             }
