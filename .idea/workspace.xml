@@ -5,20 +5,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f7a84a0f-ba81-43ac-aea2-983b9b838dc2" name="변경" comment="[commit] community 수정">
-      <change afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/communityForm.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/communityList.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/community/communityModify.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules/kr.co.fitzCode.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_web_6_4_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_security_spring_security_web_6_4_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_web_6_2_3.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_springframework_spring_web_6_2_3.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/fitzCode.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/fitzCode.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/controller/CommentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/controller/CommentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/controller/CommunityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/community/controller/CommunityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityForm.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityList.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityList.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityModify.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/community/communityModify.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/build/reports/problems/problems-report.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/build/reports/problems/problems-report.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/order/allOrders.css" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/static/css/order/allOrders.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/order/allOrders.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/order/allOrders.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/order/orderConfirmationEmail.html" beforeDir="false" afterPath="$PROJECT_DIR$/fitzCode/src/main/resources/templates/order/orderConfirmationEmail.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$/fitzCode">
@@ -90,6 +96,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "DefaultHtmlFileTemplate": "HTML File",
+    "Gradle.Build fitzCode.executor": "Run",
     "Gradle.fitzCode 빌드.executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -97,6 +104,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.FitzCodeApplication.executor": "Run",
     "git-widget-placeholder": "develop",
     "kotlin-language-version-configured": "true",
@@ -139,7 +147,7 @@
         <env name="mail.password" value="sdhd vvkh nijy miis" />
       </envs>
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <module name="fitzCode.main" />
+      <module name="kr.co.fitzCode.main" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="kr.co.fitzcode.FitzCodeApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -441,16 +449,5 @@
     <MESSAGE value="[commit] communityList 수정" />
     <MESSAGE value="[commit] community 수정" />
     <option name="LAST_COMMIT_MESSAGE" value="[commit] community 수정" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/fitzCode/src/main/java/kr/co/fitzcode/common/config/SecurityConfig.java</url>
-          <line>47</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
