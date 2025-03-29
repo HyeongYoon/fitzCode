@@ -36,7 +36,8 @@
                         <p class="subTitle" th:text="${default.bankName}"></p>
                         <div class="accountNumber">
                             <p id="defaultAccountNumber" th:text="${default.accountNumber}"/>
-                            <button class="copyDefaultAccountNumberBtn" data-clipboard-target="#defaultAccountNumber"><img src="/img/copyicon.png"></button>
+                            <button class="copyDefaultAccountNumberBtn" data-clipboard-target="#defaultAccountNumber">
+                                <img src="/img/copyicon.png"></button>
                         </div>
                     </div>
                 </div>
@@ -61,11 +62,11 @@
                                         <p class="subTitle" th:text="${account.bankName} "></p>
                                         <div class="accountNumber">
                                             <p id="accountNumber" th:text="${account.accountNumber}"/>
-                                            <button class="copyAccountNumberBtn" data-clipboard-target="#accountNumber"><img src="/img/copyicon.png"></button>
+                                            <button class="copyAccountNumberBtn" data-clipboard-target="#accountNumber">
+                                                <img src="/img/copyicon.png"></button>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div style="padding-bottom: 10px;">
                                 <a th:href="@{/mypage/deleteAccount/{accountId}(accountId=${account.accountId})}"
