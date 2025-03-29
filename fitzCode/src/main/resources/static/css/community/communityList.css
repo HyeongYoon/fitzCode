@@ -1,0 +1,232 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Apple SD Gothic Neo', sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 10px;
+    margin-top: 7%;
+}
+
+.filter-container {
+    display: flex;
+    gap: 40px;
+    margin: 20px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #777;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.filter-btn.active {
+    font-weight: bold;
+    color: #000;
+    border-bottom: 3px solid #000;
+    margin-bottom: 6px;
+}
+
+.style-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: calc(25% - 15px);
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    background: #fff;
+    cursor: pointer;
+}
+
+.card-header {
+    width: 100%;
+    height: 300px;
+    position: relative;
+}
+
+.card-header img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-header p {
+    position: absolute;
+    bottom: 10px;
+    margin-left: 80%;
+}
+
+.card-content {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.card-content-profile {
+    width: 40px;
+    height: 40px;
+    padding: 1px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.card-content-profile img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.card-content span {
+    font-size: 14px;
+    font-weight: bolder;
+    margin-top: 0;
+}
+
+.card-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 14px;
+    padding: 10px 10px;
+    border-top: 1px solid #ddd;
+    position: relative;
+}
+
+.card-footer span {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.card-footer p {
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* From Uiverse.io by andrew-demchenk0 */
+.button {
+    position: relative;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #2f2f32;
+    background-color: #2f2f32;
+    margin-bottom: 10px;
+}
+
+.button, .button__icon, .button__text {
+    transition: all 0.3s;
+}
+
+.button .button__text {
+    transform: translateX(30px);
+    color: #fff;
+    font-weight: 600;
+}
+
+.button .button__icon {
+    position: absolute;
+    transform: translateX(109px);
+    height: 100%;
+    width: 39px;
+    background-color: #2f2f32;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.button .svg {
+    width: 30px;
+    stroke: #fff;
+}
+
+.button:hover {
+    background: #2f2f32;
+}
+
+.button:hover .button__text {
+    color: transparent;
+}
+
+.button:hover .button__icon {
+    width: 148px;
+    transform: translateX(0);
+}
+
+.button:active .button__icon {
+    background-color: #2f2f32;
+}
+
+.button:active {
+    border: 1px solid #2f2f32;
+}
+
+.label_container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.label_container {
+    display: block;
+    position: absolute;
+    cursor: pointer;
+    user-select: none;
+    bottom: 10px;
+    margin-left: 85%;
+}
+
+.label_container svg {
+    position: relative;
+    top: 0;
+    left: 0;
+    height: 30px;
+    width: 30px;
+    transition: all 0.2s;
+    fill: #666;
+}
+
+.label_container svg:hover {
+    transform: scale(1.0);
+}
+
+.label_container input:checked ~ svg {
+    fill: #E3474F;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover,
+a:focus {
+    background-color: transparent;
+    color: inherit;
+    text-decoration: none;
+}

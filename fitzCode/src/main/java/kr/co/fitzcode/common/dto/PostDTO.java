@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class PostDTO {
     private int postId; // 게시물 고유 ID
     private int userId; // 작성자 ID
-    private String styleCategory; // 스타일 카테고리 ID (1~5) enum 만들기
+    private String styleCategory; // 스타일 카테고리 ID
     private String title; // 게시물 제목
     private String content; // 게시물 내용
     private String thumbnailImageUrl; // 썸네일 이미지 URL

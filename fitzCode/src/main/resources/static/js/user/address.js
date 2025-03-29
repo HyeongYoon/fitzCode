@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-
     // 새 주소 추가 모달 여닫기
     const addAddressModal = document.getElementById("add-address-modalContainer");
     const insertBtn = document.getElementById("insert-btn");
 
     insertBtn.addEventListener("click", (event) => {
-        event.preventDefault();  // 폼 제출 방지
+        event.preventDefault();
 
         // 모달 창 열기
         addAddressModal.classList.remove("hidden");
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("add-address-modalCloseButton").addEventListener("click", closeModal);
     document.getElementById("saveBtn").addEventListener("click", closeModal);
-
 
     // alert 올바른 이름 입력 메시지
     let nameInput = document.getElementById("input-name");
@@ -64,8 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.style.background = check ? "black" : "white";
             btn.style.color = check ? "white" : "black";
             btn.style.border = check ? "black 1px solid" : "#ddd 1px solid";
-            console.log(cnt)
-            console.log(check)
+            console.log(cnt);
+            console.log(check);
         });
     });
 
@@ -93,8 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
             };
         }
 
-
-        fetch("http://localhost:8080/mypage/insertAddress", {
+        fetch(`${window.location.origin}/mypage/insertAddress`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -102,9 +99,11 @@ document.addEventListener("DOMContentLoaded", () => {
             body: JSON.stringify(data)
         })
             .then(data => {
-                location.href = "http://localhost:8080/mypage/address";  // 리다이렉트
+                location.href = `${window.location.origin}/mypage/address`;  // 리다이렉트
             })
-
+            .catch(error => {
+                console.error("주소 추가 실패:", error);
+            });
     });
 
     // 삭제할 주소 미체크 방지
@@ -118,5 +117,4 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("삭제할 주소를 선택해주세요.");
         }
     });
-
 });

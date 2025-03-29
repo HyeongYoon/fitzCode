@@ -11,7 +11,7 @@
         WHERE product_name LIKE CONCAT('%', #{productName}, '%')
     </select>
 
-    <!--  게시물 추가  -->
+    <!-- 게시물 추가 -->
     <insert id="insertPost" parameterType="PostDTO" useGeneratedKeys="true" keyProperty="postId">
         INSERT INTO POST (user_id, style_category, title, content, thumbnail_image_url)
         VALUES (#{userId}, #{styleCategory}, #{title}, #{content}, #{thumbnailImageUrl});
@@ -26,15 +26,15 @@
         </foreach>
     </insert>
 
-    <!--  이미지 추가  -->
+    <!-- 이미지 추가 -->
     <insert id="insertPostImage" parameterType="PostImageDTO">
         INSERT INTO POST_IMAGE (post_image_url, post_id, post_image_order)
         VALUES (#{postImageUrl}, #{postId}, #{postImageOrder});
     </insert>
 
     <!-- 게시물 상세 조회 -->
-    <select id="getPostDetail" parameterType="int" resultType="PostDTO">
-        SELECT p.post_id, p.user_id, u.user_name, p.style_category, p.title, p.content,
+    <select id="getPostDetail" parameterType="int" resultType="map">
+        SELECT p.post_id, p.user_id, u.user_name, u.profile_image, p.style_category, p.title, p.content,
         p.thumbnail_image_url, p.like_count, p.comment_count, p.view_count, p.save_count,
         p.created_at, p.updated_at
         FROM POST p
@@ -60,14 +60,22 @@
         LIMIT 4
     </select>
 
-    <!-- 포스트 전체 조회 -->
-    <select id="getAllPosts" resultType="PostDTO">
-        SELECT post_id, user_id, style_category, title, content, thumbnail_image_url
-        FROM POST
-        ORDER BY post_id DESC
+    <!-- 모든 게시물 조회 -->
+    <select id="getAllPosts" parameterType="String" resultType="map">
+        SELECT p.post_id, p.user_id, u.user_name, u.profile_image, p.style_category, p.title, p.content,
+        p.thumbnail_image_url, p.like_count, p.comment_count, p.view_count, p.save_count,
+        p.created_at, p.updated_at
+        FROM POST p
+        JOIN USER u ON p.user_id = u.user_id
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                AND p.style_category LIKE CONCAT('%', #{_parameter}, '%')
+            </if>
+        </where>
+        ORDER BY p.post_id DESC
     </select>
 
-    <!-- postId 로 이미지 조회 -->
+    <!-- postId로 이미지 조회 -->
     <select id="getPostImagesByPostId" resultType="PostImageDTO">
         SELECT post_image_url, post_id, post_image_order
         FROM POST_IMAGE
@@ -83,14 +91,151 @@
         WHERE post_id = #{postId}
     </select>
 
+    <!-- 카테고리별 게시물 조회 -->
+    <select id="findByStyleCategory" parameterType="String" resultType="PostDTO">
+        SELECT post_id, user_id, style_category, title, content, thumbnail_image_url,
+        like_count, comment_count, view_count, save_count, created_at, updated_at
+        FROM POST
+        WHERE style_category LIKE CONCAT('%', #{styleCategory}, '%')
+    </select>
 
     <!-- 게시물 수정 -->
     <update id="updatePost" parameterType="PostDTO">
         UPDATE POST
-        SET title = #{title},
-        content = #{content},
-        style_category = #{styleCategory},
-        thumbnail_image_url = #{thumbnailImageUrl}
+        SET title = #{postDTO.title},
+        content = #{postDTO.content},
+        style_category = #{postDTO.styleCategory},
+        thumbnail_image_url = #{postDTO.thumbnailImageUrl}
+        WHERE post_id = #{postDTO.postId}
+    </update>
+
+    <!-- 게시물 삭제 -->
+    <delete id="deletePost" parameterType="PostDTO">
+        DELETE FROM POST
+        WHERE post_id = #{postId}
+    </delete>
+
+    <!-- viewCount 조회 -->
+    <select id="getViewCount" parameterType="int" resultType="int">
+        SELECT view_count
+        FROM POST
+        WHERE post_id = #{postId}
+    </select>
+
+    <!-- 좋아요 추가 -->
+    <insert id="insertPostLike" parameterType="PostLikeDTO">
+        INSERT INTO POST_LIKE (post_id, user_id)
+        VALUES (#{postId}, #{userId})
+    </insert>
+
+    <!-- 좋아요 삭제 -->
+    <delete id="deletePostLike" parameterType="PostLikeDTO">
+        DELETE FROM POST_LIKE
+        WHERE post_id = #{postId} AND user_id = #{userId}
+    </delete>
+
+    <!-- 좋아요 수 조회 -->
+    <select id="countPostLikes" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM POST_LIKE
+        WHERE post_id = #{postId}
+    </select>
+
+    <!-- 좋아요 상태 확인 -->
+    <select id="existsPostLike" parameterType="PostLikeDTO" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM POST_LIKE
+        WHERE post_id = #{postId} AND user_id = #{userId}
+    </select>
+
+    <!-- likeCount 조회 -->
+    <select id="getLikeCount" parameterType="int" resultType="int">
+        SELECT like_count
+        FROM POST
+        WHERE post_id = #{postId}
+    </select>
+
+    <!-- like_count 업데이트 -->
+    <update id="updateLikeCount" parameterType="map">
+        UPDATE POST
+        SET like_count = #{likeCount}
         WHERE post_id = #{postId}
     </update>
+
+    <!-- 북마크 추가 -->
+    <insert id="insertPostSave" parameterType="PostSaveDTO">
+        INSERT INTO POST_SAVE (post_id, user_id)
+        VALUES (#{postId}, #{userId})
+    </insert>
+
+    <!-- 북마크 삭제 -->
+    <delete id="deletePostSave" parameterType="PostSaveDTO">
+        DELETE FROM POST_SAVE
+        WHERE post_id = #{postId} AND user_id = #{userId}
+    </delete>
+
+    <!-- 북마크 수 조회 -->
+    <select id="countPostSaves" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM POST_SAVE
+        WHERE post_id = #{postId}
+    </select>
+
+    <!-- 북마크 상태 확인 -->
+    <select id="existsPostSave" parameterType="PostSaveDTO" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM POST_SAVE
+        WHERE post_id = #{postId} AND user_id = #{userId}
+    </select>
+
+    <!-- saveCount 조회 -->
+    <select id="getSaveCount" parameterType="int" resultType="int">
+        SELECT save_count
+        FROM POST
+        WHERE post_id = #{postId}
+    </select>
+
+    <!-- save_count 업데이트 -->
+    <update id="updateSaveCount" parameterType="map">
+        UPDATE POST
+        SET save_count = #{saveCount}
+        WHERE post_id = #{postId}
+    </update>
+
+    <!-- 팔로우 추가 -->
+    <insert id="addFollow" parameterType="FollowDTO">
+        INSERT INTO FOLLOW (follower_id, following_id, created_at)
+        VALUES (#{followerId}, #{followingId}, NOW())
+    </insert>
+
+    <!-- 팔로우 삭제 -->
+    <delete id="deleteFollow" parameterType="FollowDTO">
+        DELETE FROM FOLLOW
+        WHERE follower_id = #{followerId} AND following_id = #{followingId}
+    </delete>
+
+    <!-- 팔로우 여부 확인 -->
+    <select id="isFollowing" parameterType="FollowDTO" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM FOLLOW
+        WHERE follower_id = #{followerId} AND following_id = #{followingId}
+    </select>
+
+    <!-- 좋아요 수 기준 상위 게시물 조회 -->
+    <select id="getTopLikedPosts" parameterType="int" resultType="map">
+        SELECT
+        p.post_id,
+        p.title,
+        p.thumbnail_image_url,
+        u.user_name,
+        u.profile_image,
+        COUNT(pl.post_id) as like_count
+        FROM POST p
+        JOIN USER u ON p.user_id = u.user_id
+        LEFT JOIN POST_LIKE pl ON p.post_id = pl.post_id
+        GROUP BY p.post_id, p.title, p.thumbnail_image_url, u.user_name, u.profile_image
+        ORDER BY COUNT(pl.post_id) DESC
+        LIMIT #{limit}
+    </select>
+
 </mapper>

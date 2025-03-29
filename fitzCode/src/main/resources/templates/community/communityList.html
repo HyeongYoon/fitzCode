@@ -5,254 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>communityList</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Apple SD Gothic Neo', sans-serif;
-        }
-
-        body {
-            background-color: #fff;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 10px;
-        }
-
-        /* 필터 스타일 */
-        .filter-container {
-            display: flex;
-            gap: 40px;
-            margin: 20px 0;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .filter-btn {
-            background: none;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            color: #777;
-            padding-bottom: 8px;
-            margin-bottom: 8px;
-        }
-
-        .filter-btn.active {
-            font-weight: bold;
-            color: #000;
-            border-bottom: 3px solid #000;
-            margin-bottom: 6px;
-        }
-
-        .style-grid {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .card {
-            width: calc(25% - 15px); /* 한 줄에 4개씩 표시 */
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            overflow: hidden;
-            background: #fff;
-            cursor: pointer;
-        }
-
-        .card-header {
-            width: 100%;
-            height: 300px;
-            position: relative;
-        }
-
-        .card-header img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .card-header p {
-            position: absolute;
-            bottom: 10px;
-            margin-left: 80%;
-        }
-
-        .card-content {
-            padding: 5px;
-            display: flex;
-            align-items: center;
-        }
-
-        .card-content-profile {
-            width: 40px;
-            height: 40px;
-            /*border: 1px solid #ddd;*/
-            padding: 1px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-right: 10px;
-        }
-
-        .card-content-profile img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .card-content span {
-            font-size: 14px;
-            font-weight: bolder;
-            margin-top: 0;
-        }
-
-        .card-footer {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            font-size: 14px;
-            padding: 10px 10px;
-            border-top: 1px solid #ddd;
-            position: relative;
-        }
-
-        .card-footer span {
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        .card-footer p {
-            font-size: 14px;
-            margin-top: 5px;
-        }
-
-        /* From Uiverse.io by andrew-demchenk0 */
-        .button {
-            position: relative;
-            width: 150px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            border: 1px solid #2f2f32;
-            background-color: #2f2f32;
-            margin-bottom: 10px;
-        }
-
-        .button, .button__icon, .button__text {
-            transition: all 0.3s;
-        }
-
-        .button .button__text {
-            transform: translateX(30px);
-            color: #fff;
-            font-weight: 600;
-        }
-
-        .button .button__icon {
-            position: absolute;
-            transform: translateX(109px);
-            height: 100%;
-            width: 39px;
-            background-color: #2f2f32;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .button .svg {
-            width: 30px;
-            stroke: #fff;
-        }
-
-        .button:hover {
-            background: #2f2f32;
-        }
-
-        .button:hover .button__text {
-            color: transparent;
-        }
-
-        .button:hover .button__icon {
-            width: 148px;
-            transform: translateX(0);
-        }
-
-        .button:active .button__icon {
-            background-color: #2f2f32;
-        }
-
-        .button:active {
-            border: 1px solid #2f2f32;
-        }
-
-        .label_container input {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .label_container {
-            display: block;
-            position: absolute;
-            cursor: pointer;
-            user-select: none;
-            bottom: 10px;
-            margin-left: 85%;
-        }
-
-        .label_container svg {
-            position: relative;
-            top: 0;
-            left: 0;
-            height: 30px;
-            width: 30px;
-            transition: all 0.2s;
-            fill: #666;
-        }
-
-        .label_container svg:hover {
-            transform: scale(1.0);
-        }
-
-        .label_container input:checked ~ svg {
-            fill: #E3474F;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        a:hover,
-        a:focus {
-            background-color: transparent;
-            color: inherit;
-            text-decoration: none;
-        }
-    </style>
+    <link th:fragment="header-head" rel="stylesheet" th:href="@{/css/community/communityList.css}"/>
 </head>
 <body>
+
 <!-- header -->
 <div th:replace="~{fragments/header}"></div>
 
 <div class="container">
     <div class="filter-container">
-        <button class="filter-btn active">All</button>
-        <button class="filter-btn">Casual</button>
-        <button class="filter-btn">Street</button>
-        <button class="filter-btn">Modern</button>
-        <button class="filter-btn">Vintage</button>
-        <button class="filter-btn">Gorpcore</button>
+        <a th:href="@{/community/list(category='All')}"><button class="filter-btn">All</button></a>
+        <a th:href="@{/community/list(category='캐주얼')}"><button class="filter-btn">Casual</button></a>
+        <a th:href="@{/community/list(category='스트릿')}"><button class="filter-btn">Street</button></a>
+        <a th:href="@{/community/list(category='클래식')}"><button class="filter-btn">Classic</button></a>
+        <a th:href="@{/community/list(category='시크')}"><button class="filter-btn">Chic</button></a>
+        <a th:href="@{/community/list(category='고프코어')}"><button class="filter-btn">Gorpcore</button></a>
+
         <a href="/community/form" style="text-decoration: none; margin-left: auto">
             <button type="button" class="button">
                 <span class="button__text">POST</span>
@@ -268,13 +36,13 @@
 
     <div class="style-grid">
         <div class="card" th:each="post : ${posts}">
-            <a th:href="@{/community/detail/{postId}(postId=${post.postId})}">
+            <a th:href="@{/community/detail/{postId}(postId=${post.post_id})}">
                 <div class="card-header">
-                    <img th:src="${post.thumbnailImageUrl != null} ? ${post.thumbnailImageUrl} : '/img/default-style.jpg'"
+                    <img th:src="${post['thumbnail_image_url'] != null} ? ${post['thumbnail_image_url']} : '/img/default-style.jpg'"
                          th:alt="'스타일 이미지 - ' + ${post.title}"
                          th:onerror="'this.src=\'/img/default-style.jpg\''"/>
                     <label class="label_container">
-                        <input type="checkbox">
+                        <input type="checkbox" th:checked="${post.isLiked}" th:data-post-id="${post.post_id}" class="like-checkbox">
                         <svg id="Layer_1" version="1.0" viewBox="0 0 24 24" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                             <path d="M16.4,4C14.6,4,13,4.9,12,6.3C11,4.9,9.4,4,7.6,4C4.5,4,2,6.5,2,9.6C2,14,12,22,12,22s10-8,10-12.4C22,6.5,19.5,4,16.4,4z"></path>
                         </svg>
@@ -282,9 +50,11 @@
                 </div>
                 <div class="card-content">
                     <span class="card-content-profile">
-                        <img th:src="${profileImage}" alt="프로필 이미지">
+                        <img th:src="${post['profile_image'] != null} ? ${post['profile_image']} : '/img/default-profile.png'"
+                             alt="프로필 이미지"
+                             th:onerror="'this.src=\'/img/default-profile.png\''"/>
                     </span>
-                    <span th:text="${username}"></span>
+                    <span th:text="${post.user_name}"></span>
                 </div>
                 <div class="card-footer">
                     <p th:text="${post.title}">스타일 테스트입니다 - 제목</p>
@@ -297,11 +67,80 @@
 <!-- footer -->
 <div th:replace="~{fragments/footer}"></div>
 
-<script>
-    document.querySelectorAll('.filter-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            this.classList.add('active');
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedCategory = urlParams.get('category') || 'All';
+
+        const categoryMap = {
+            'All': 'All',
+            'Casual': '캐주얼',
+            'Street': '스트릿',
+            'Classic': '클래식',
+            'Chic': '시크',
+            'Gorpcore': '고프코어'
+        };
+
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            const buttonText = button.textContent;
+            const mappedCategory = categoryMap[buttonText];
+            if (mappedCategory === selectedCategory) {
+                button.classList.add('active');
+            } else {
+                button.classList.remove('active');
+            }
+        });
+
+        // 로그인 여부 확인
+        const isLoggedIn = /*[[${isLoggedIn}]]*/ false;
+
+        // 좋아요 체크박스 이벤트 처리
+        document.querySelectorAll('.like-checkbox').forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                if (!isLoggedIn) {
+                    alert('로그인이 필요합니다.');
+                    this.checked = !this.checked; // 체크 상태 복원
+                    window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                    return;
+                }
+
+                const postId = this.getAttribute('data-post-id');
+                const isChecked = this.checked;
+                const url = isChecked ? `/api/community/like/${postId}` : `/api/community/unlike/${postId}`;
+
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ postId: postId })
+                })
+                    .then(response => {
+                        if (response.status === 401) {
+                            alert('로그인이 필요합니다.');
+                            window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+                            return;
+                        }
+                        if (!response.ok) {
+                            // 응답이 JSON이 아닌 경우를 처리
+                            return response.text().then(text => {
+                                throw new Error(`좋아요 처리 실패: ${response.status} ${response.statusText}, Response: ${text}`);
+                            });
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (!data.success) {
+                            alert(data.message || '좋아요 처리에 실패했습니다.');
+                            this.checked = !isChecked;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        this.checked = !isChecked;
+                        alert('네트워크 오류가 발생했습니다.');
+                    });
+            });
         });
     });
 </script>

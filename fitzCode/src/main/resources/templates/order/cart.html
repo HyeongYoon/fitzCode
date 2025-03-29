@@ -29,6 +29,32 @@
     
     
     
+<!--    <div id="orderSummaryModal" class="modal">-->
+<!--        <div class="modal-content">-->
+<!--            <span id="closeModal" class="close">&times;</span>-->
+<!--            -->
+<!--            <h2>Order Summary</h2>-->
+<!--            -->
+<!--            <div id="orderItemsContainer"></div>-->
+<!--            -->
+<!--            <div class="address">-->
+<!--                <h3>배송지</h3>-->
+<!--                <div class="address-selection">-->
+<!--                    <select id="userAddress">-->
+<!--                        <option value="">배송지 선택</option>-->
+<!--                    </select>-->
+<!--                    <button id="changeAddressBtn" onclick="changeAddress()">변경</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            -->
+<!--            <div class="final-price-section">-->
+<!--                최종 결제 가격: <span id="totalPrice"></span>-->
+<!--            </div>-->
+<!--            -->
+<!--            <button id="confirmCheckout" class="btn">결제하기</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    -->
     
     <!-- Modal -->
     <div id="orderSummaryModal" class="modal">
@@ -42,9 +68,9 @@
                 <div class="address-section">
                     <h3>배송지</h3>
                     <div class="address-selection">
-                        <select id="userAddress">
-                            <option value="">배송지 선택</option>
-                        </select>
+                        <div id="userAddress">
+                            <p>배송지 선택</p>
+                        </div>
                         <button id="changeAddressBtn" onclick="changeAddress()">변경</button>
                     </div>
                 </div>
@@ -57,11 +83,7 @@
             
         </div>
     </div>
-    
-    <!-- Checkout Button -->
-    <button class="btn_action buy_button sticky-buy-button showSummaryButton" onclick="showSummary()">구매</button>
-    
-    
+
     <!-- Sticky Bar 폼임 -->
     <div class="sticky-container" id="stickyBar">
         <div class="info">
@@ -512,10 +534,10 @@
 
             itemElement.innerHTML = `
             <img src="${item.productImageUrl}" alt="${item.productName}" width="50" />
-            <span><strong>${item.productName}</strong></span><br />
-            <span>Size: ${item.sizeName}</span><br />
-            <span>Quantity: ${item.quantity}</span><br />
-            <span>Price: ₩${item.finalPrice.toLocaleString()}</span><br />
+            <span><strong>${item.productName}</strong></span>
+            <span>Size: ${item.sizeName}</span>
+            <span>Quantity: ${item.quantity}</span>
+            <span>Price: ₩${item.finalPrice.toLocaleString()}</span>
             ${item.couponDescription ? `<span>Coupon: ${item.couponDescription}</span><br />` : ''}
         `;
 
