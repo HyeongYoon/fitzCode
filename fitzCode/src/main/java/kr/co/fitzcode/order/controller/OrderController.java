@@ -51,17 +51,6 @@ public class OrderController {
         List<UserOrderDetailDTO> list = userOrderDetailService.getOrderDetailByUserId(userId);
         log.info("list::::: {}", list);
 
-//        // Group by orderId
-//        Map<LocalDateTime, List<UserOrderDetailDTO>> groupedOrders = list.stream()
-//                .collect(Collectors.groupingBy(UserOrderDetailDTO::getCreatedAt));
-
-//        // 각 그룹(리스트) 내부 정렬
-//        groupedOrders.forEach((orderId, orderList) ->
-//                orderList.sort(Comparator.comparing(UserOrderDetailDTO::getCreatedAt))
-//        );
-
-//        log.info("groupedOrders::::: {}", groupedOrders);
-
         model.addAttribute("groupedOrders", list);
         return "order/allOrders";
     }
