@@ -28,7 +28,7 @@ table{
     border: none;
 }
 
-img {
+#productImages {
     max-width: 80px;
     border-radius: 5px;
 }
@@ -42,4 +42,9 @@ td{
 
 tbody tr:nth-child(even) {
     background: #f9f9f9;
+}
+
+#toOrderList{
+    margin: 15px 10px;
+    align-self: flex-end;
 }
