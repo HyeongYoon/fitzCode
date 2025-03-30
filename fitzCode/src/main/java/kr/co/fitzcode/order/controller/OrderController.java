@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,16 +51,20 @@ public class OrderController {
         List<UserOrderDetailDTO> list = userOrderDetailService.getOrderDetailByUserId(userId);
         log.info("list::::: {}", list);
 
-        // Group by orderId
-        Map<Integer, List<UserOrderDetailDTO>> groupedOrders = list.stream()
-                .collect(Collectors.groupingBy(UserOrderDetailDTO::getOrderId));
-        log.info("groupedOrders::::: {}", groupedOrders);
+//        // Group by orderId
+//        Map<LocalDateTime, List<UserOrderDetailDTO>> groupedOrders = list.stream()
+//                .collect(Collectors.groupingBy(UserOrderDetailDTO::getCreatedAt));
 
-        model.addAttribute("groupedOrders", groupedOrders);
+//        // 각 그룹(리스트) 내부 정렬
+//        groupedOrders.forEach((orderId, orderList) ->
+//                orderList.sort(Comparator.comparing(UserOrderDetailDTO::getCreatedAt))
+//        );
+
+//        log.info("groupedOrders::::: {}", groupedOrders);
+
+        model.addAttribute("groupedOrders", list);
         return "order/allOrders";
     }
-
-
 
 
 }
