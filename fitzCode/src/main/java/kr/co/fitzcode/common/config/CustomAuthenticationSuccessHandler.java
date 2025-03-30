@@ -39,7 +39,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("dto", user); // 세션에 dto 저장
-            System.out.println("Login successful, session set: " + user.getUserName());
         }
         response.sendRedirect("/");
     }

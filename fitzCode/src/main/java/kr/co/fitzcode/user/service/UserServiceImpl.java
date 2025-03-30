@@ -5,6 +5,7 @@ import kr.co.fitzcode.common.enums.UserRole;
 import kr.co.fitzcode.common.service.CouponService;
 import kr.co.fitzcode.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper;
@@ -40,21 +42,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean emailDuplicate(String email) {
         int count = userMapper.emailDuplicate(email);
-        System.out.println("이메일 중복 체크 SQL 실행 결과: " + count);
+        log.info("이메일 중복 체크 SQL 실행 결과: {}", count);
         return count > 0;
     }
 
     @Override
     public boolean nicknameDuplicate(String nickname) {
         int count = userMapper.nicknameDuplicate(nickname);
-        System.out.println("닉네임 중복 체크 SQL 실행 결과: " + count);
+        log.info("닉네임 중복 체크 SQL 실행 결과: {}", count);
         return count > 0;
     }
 
     @Override
     public boolean phoneNumberDuplicate(String phoneNumber) {
         int count = userMapper.phoneNumberDuplicate(phoneNumber);
-        System.out.println("전화번호 중복 체크 SQL 실행 결과: " + count);
+        log.info("전화번호 중복 체크 SQL 실행 결과: {}", count);
         return count > 0;
     }
 

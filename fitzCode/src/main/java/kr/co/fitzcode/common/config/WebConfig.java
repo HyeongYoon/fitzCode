@@ -43,7 +43,7 @@ public class WebConfig implements WebMvcConfigurer {
             registry.addInterceptor(new GeoIpInterceptor())
                     .addPathPatterns("/**")
                     .excludePathPatterns("/error");
-            System.out.println("GeoIpInterceptor 성공적으로 등록됨");
+            log.info("GeoIpInterceptor 성공적으로 등록됨");
         } catch (IOException e) {
             throw new RuntimeException("GeoIpInterceptor 초기화 실패: " + e.getMessage(), e);
         }

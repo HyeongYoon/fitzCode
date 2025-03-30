@@ -105,7 +105,7 @@ public class CommunityController {
         int currentUserId = (userDTO != null) ? userDTO.getUserId() : -1;
 
         int postUserId = ((Number) post.get("user_id")).intValue();
-        System.out.println("Post user_id>>>>>>>>>>>>>> " + postUserId);
+        log.info("Post user_id {}", postUserId);
 
         boolean isOwnPost = currentUserId != -1 && currentUserId == postUserId;
 

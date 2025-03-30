@@ -2,10 +2,12 @@ package kr.co.fitzcode.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import kr.co.fitzcode.user.service.OAuth2Response;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 import java.util.Random;
 
+@Slf4j
 @Schema(description = "Kakao OAuth2 응답 정보")
 public class KakaoResponse implements OAuth2Response {
     @Schema(description = "Kakao 응답 속성 맵")
@@ -76,11 +78,11 @@ public class KakaoResponse implements OAuth2Response {
 
         if (kakaoAccount != null && kakaoAccount.get("phone_number") != null) {
             String phoneNumber = kakaoAccount.get("phone_number").toString();
-            System.out.println("카카오 기존 전화번호: " + phoneNumber);
+            log.info("카카오 기존 전화번호: {}", phoneNumber);
 
             String formattedPhoneNumber = phoneNumber.replace("+82 10", "010");
 
-            System.out.println("변환 전화번호: " + formattedPhoneNumber);
+            log.info("변환 전화번호: {}", formattedPhoneNumber);
             return formattedPhoneNumber;
         }
         return null;
