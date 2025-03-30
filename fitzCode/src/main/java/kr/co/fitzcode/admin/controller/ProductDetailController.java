@@ -189,7 +189,6 @@ public class ProductDetailController {
             @Parameter @RequestParam(value = "deleteImageIds", required = false) List<Long> deleteImageIds,
             RedirectAttributes redirectAttributes) {
         try {
-            System.out.println("Received deleteImageIds: " + deleteImageIds); // 디버깅 로그
             productDetailService.updateProductImages(productId, mainImage, additionalImages, deleteImageIds);
             redirectAttributes.addFlashAttribute("message", "이미지가 성공적으로 수정되었습니다.");
         } catch (Exception e) {

@@ -37,7 +37,6 @@ public class SecurityConfig implements WebMvcConfigurer {
     @Bean
     public AuthenticationFailureHandler failureHandler() {
         return (request, response, exception) -> {
-            System.out.println("Login 실패: " + exception.getMessage());
             response.sendRedirect("/login?error=true");
         };
     }

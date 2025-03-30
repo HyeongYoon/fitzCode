@@ -51,7 +51,6 @@ public class CommentController {
         int currentUserId = userDTO.getUserId();
 
         List<Map<String, Object>> rawComments = commentService.getCommentsByPostId(postId);
-        System.out.println("Fetching comments for postId: " + postId + ", currentUserId: " + currentUserId);
         rawComments.forEach(comment -> System.out.println("Comment: " + comment));
         return rawComments.stream().map(rawComment -> {
             Map<String, Object> mappedComment = new HashMap<>();
@@ -119,7 +118,6 @@ public class CommentController {
         }
 
         try {
-            System.out.println("Liking commentId: " + commentId + ", userId: " + userDTO.getUserId());
             commentService.addCommentLike(commentId, userDTO.getUserId());
             int likeCount = commentService.countCommentLikes(commentId);
             return Map.of("success", true, "likeCount", likeCount);
@@ -128,7 +126,6 @@ public class CommentController {
         } catch (IllegalStateException e) {
             return Map.of("success", false, "message", e.getMessage());
         } catch (Exception e) {
-            System.out.println("Unexpected error: " + e.getMessage());
             return Map.of("success", false, "message", "좋아요 처리 중 오류 발생: " + e.getMessage());
         }
     }
