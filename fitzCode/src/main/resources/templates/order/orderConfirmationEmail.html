@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Confirmation</title>
     <style>
-        /* General email container styling */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Apple SD Gothic Neo', sans-serif;
             background-color: #f7f7f7;
             margin: 0;
             padding: 0;
@@ -58,8 +57,8 @@
         }
 
         .product-img {
-            max-width: 80px;
-            height: auto;
+            width: 100px;
+            height: 100px;
             border-radius: 5px;
         }
 
@@ -77,22 +76,19 @@
             font-size: 14px;
             margin-top: 20px;
         }
-        img {
-            width: 77px;
-        }
     </style>
 </head>
 <body>
 <div class="email-container">
     <h1>Order Confirmation</h1>
-    
+
     <p>Dear Customer,</p>
     <p>Thank you for your order! Here are the details of your purchase:</p>
-    
+
     <p><strong>Order ID:</strong> <span th:text="${orderDTO.orderId}"></span></p>
     <p><strong>Order Date:</strong> <span th:text="${orderDTO.createdAt}"></span></p>
     <p><strong>Total Price:</strong> <span th:text="${orderDTO.totalPrice}"></span></p>
-    
+
     <h2>Order Items</h2>
     <table>
         <thead>
@@ -105,21 +101,21 @@
         </thead>
         <tbody>
         <tr th:each="detail : ${orderDetailList}">
-            <td><img th:src="${detail['imageUrl']}" alt="Product Image" class="product-img"></td>
+            <td><img th:src="${detail['imageUrl']}" alt="Product Image" style="width: 100px; height: 100px;" class="product-img"></td>
             <td th:text="${detail['productName']}"></td>
             <td th:text="${detail['quantity']}"></td>
             <td th:text="${detail['price']}"></td>
         </tr>
         </tbody>
     </table>
-    
+
     <p class="total-price">Total Price: <span th:text="${orderDTO.totalPrice}"></span> KRW</p>
-    
+
     <p>We hope you enjoy your purchase!</p>
-    
+
     <p>Best regards,</p>
     <p>fitzCode</p>
-    
+
     <div class="footer">
         <p>This is an automated email. Please do not reply.</p>
         <p>© 2025 fitzCode. All rights reserved.</p>
