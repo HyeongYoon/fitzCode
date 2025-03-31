@@ -152,12 +152,12 @@
                     </div>
                 </div>
                 <div class="review-content">
-                    <div class="chart-box">
-                        <div th:replace="~{product/productReviewDoughnut :: reviewDoughnut(reviewCounts=${reviewCounts})}"></div>
-                        <div class="rating-summary">
-                            <div class="averageRating" th:text="${'평균: ' + averageRating + '점'}" th:if="${averageRating != 0}"></div>
-                            <div class="numberOfReviews" th:text="${totalReviews + '개'}"></div>
-                        </div>
+<!--                    <div class="chart-box">-->
+<!--                        <div th:replace="~{product/productReviewDoughnut :: reviewDoughnut(reviewCounts=${reviewCounts})}"></div>-->
+<!--                        <div class="rating-summary">-->
+<!--                            <div class="averageRating" th:text="${'평균: ' + averageRating + '점'}" th:if="${averageRating != 0}"></div>-->
+<!--                            <div class="numberOfReviews" th:text="${totalReviews + '개'}"></div>-->
+<!--                        </div>-->
                        
                     </div>
                     <!-- 상품후기 보기 탭 -->
@@ -266,24 +266,6 @@
 <script th:unless="${#authentication.principal == 'anonymousUser'}">
     var isAuthenticated = true;
 </script>
-
-<!--<script>-->
-<!--    &lt;!&ndash; check if user exists &ndash;&gt;-->
-<!--    <script th:if="${#authentication.principal == 'anonymousUser'}">-->
-<!--        var isAuthenticated = false;-->
-<!--</script>-->
-<!--<script th:unless="${#authentication.principal == 'anonymousUser'}">-->
-<!--    var isAuthenticated = true;-->
-<!--</script>-->
-
-<!--<script>-->
-<!--    &lt;!&ndash; check if user exists &ndash;&gt;-->
-<!--    <script th:if="${#authentication.principal == 'anonymousUser'}">-->
-<!--        var isAuthenticated = false;-->
-<!--</script>-->
-<!--<script th:unless="${#authentication.principal == 'anonymousUser'}">-->
-<!--    var isAuthenticated = true;-->
-<!--</script>-->
 
 <script>
     const productId = [[${product?.productId ?: 0}]];
