@@ -269,6 +269,36 @@ public class CommunityServiceImpl implements CommunityService {
                 .build();
         return communityMapper.isFollowing(followDTO);
     }
+    @Override
+    public Map<String, Object> getUserProfile(int userId) {
+        return communityMapper.getUserProfile(userId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPostsByUserId(int userId) {
+        return communityMapper.getPostsByUserId(userId);
+    }
+
+
+    @Override
+    public List<Map<String, Object>> getSavedPostsByUserId(int userId) {
+        return communityMapper.getSavedPostsByUserId(userId);
+    }
+
+    @Override
+    public List<Map<String, Object>> getLikedPostsByUserId(int userId) {
+        return communityMapper.getLikedPostsByUserId(userId);
+    }
+
+    @Override
+    public int getFollowerCount(int userId) {
+        return communityMapper.getFollowerCount(userId);
+    }
+
+    @Override
+    public int getFollowingCount(int userId) {
+        return communityMapper.getFollowingCount(userId);
+    }
 
     @Override
     public List<Map<String, Object>> getTopLikedPosts(int limit) {

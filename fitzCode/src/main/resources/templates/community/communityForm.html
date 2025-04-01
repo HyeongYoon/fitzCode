@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <title>communityForm</title>
+    <title>fitzCode</title>
     <link th:fragment="header-head" rel="stylesheet" th:href="@{/css/community/communityForm.css}"/>
 </head>
 <body>
@@ -87,12 +87,12 @@
     let selectedFiles = [];
     let selectedProducts = [];
 
-    // 이미지 미리보기 및 파일 이름 표시 함수
+    // 이미지 미리보기 및 파일 이름 표시
     function updateImagePreview() {
         const imagePreviewContainer = document.getElementById("imagePreviewContainer");
         const fileNameList = document.getElementById("fileNameList");
 
-        imagePreviewContainer.innerHTML = ""; // 초기화 후 재렌더링
+        imagePreviewContainer.innerHTML = "";
         fileNameList.innerHTML = "";
 
         selectedFiles.forEach(file => {
@@ -116,7 +116,7 @@
     // 이미지 선택 시 누적
     document.getElementById("images").addEventListener("change", function (event) {
         const newFiles = Array.from(event.target.files);
-        selectedFiles = [...selectedFiles, ...newFiles]; // 기존 파일에 새 파일 추가
+        selectedFiles = [...selectedFiles, ...newFiles];
         updateImagePreview();
     });
 
@@ -168,7 +168,7 @@
         });
     });
 
-    // 상품 태그 업데이트 함수
+    // 상품 태그 업데이트
     function updateTagList() {
         const tagList = document.getElementById("tagList");
         tagList.innerHTML = ""; // 초기화 후 재렌더링
@@ -185,7 +185,7 @@
         document.getElementById("productIds").value = selectedProducts.map(p => p.productId).join(",");
     }
 
-    // 모달 내 선택된 상품 업데이트 함수
+    // 모달 내 선택된 상품 업데이트
     function updateSelectedItems() {
         const selectedItemsList = document.getElementById("selectedItemsList");
         selectedItemsList.innerHTML = "";
@@ -271,7 +271,6 @@
                 window.scrollTo(0, parseInt(document.body.style.top || "0") * -1);
                 document.body.style.position = "";
                 document.body.style.top = "";
-                // selectedProducts는 초기화하지 않음
                 updateSelectedItems();
             } else {
                 alert('선택된 상품이 없습니다.');

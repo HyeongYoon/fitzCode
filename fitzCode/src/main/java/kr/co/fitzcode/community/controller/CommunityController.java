@@ -44,7 +44,7 @@ public class CommunityController {
         }
 
         model.addAttribute("posts", posts);
-        model.addAttribute("isLoggedIn", userDTO != null); // 로그인 여부 추가
+        model.addAttribute("isLoggedIn", userDTO != null);
         return "community/communityList";
     }
 
@@ -200,7 +200,7 @@ public class CommunityController {
     // 좋아요 수 기준 상위 4개 스타일 조회
     @GetMapping("/api/styles")
     @ResponseBody
-    @PreAuthorize("permitAll()") // 인증 없이 접근 허용
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<Map<String, Object>>> getTopLikedStyles(
             @RequestParam(value = "sort", defaultValue = "likes") String sort,
             @RequestParam(value = "limit", defaultValue = "4") int limit,
@@ -221,5 +221,39 @@ public class CommunityController {
             log.error("인기 스타일 조회 중 오류 발생: {}", e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
+    }
+
+    // 사용자 프로필 조회 (두 번째 코드에서 추가된 부분)
+    @GetMapping("/user/profile/{userId}")
+    public String getUserProfile(@PathVariable("userId") int userId, Model model, HttpSession session) {
+        Map<String, Object> userProfile = communityService.getUserProfile(userId);
+        if (userProfile == null) {
+            return "error";
+        }
+
+        List<Map<String, Object>> userPosts = communityService.getPostsByUserId(userId);
+        List<Map<String, Object>> savedPosts = communityService.getSavedPostsByUserId(userId);
+        List<Map<String, Object>> likedPosts = communityService.getLikedPostsByUserId(userId);
+
+        UserDTO currentUserDTO = (UserDTO) session.getAttribute("dto");
+        int currentUserId = (currentUserDTO != null) ? currentUserDTO.getUserId() : -1;
+
+        boolean isFollowing = currentUserId != -1 && communityService.isFollowing(currentUserId, userId);
+        boolean isOwnProfile = currentUserId != -1 && currentUserId == userId;
+
+        int followerCount = communityService.getFollowerCount(userId);
+        int followingCount = communityService.getFollowingCount(userId);
+
+        model.addAttribute("user", userProfile);
+        model.addAttribute("userPosts", userPosts);
+        model.addAttribute("savedPosts", savedPosts);
+        model.addAttribute("likedPosts", likedPosts);
+        model.addAttribute("currentUser", currentUserDTO);
+        model.addAttribute("isFollowing", isFollowing);
+        model.addAttribute("isOwnProfile", isOwnProfile);
+        model.addAttribute("followerCount", followerCount);
+        model.addAttribute("followingCount", followingCount);
+
+        return "community/userProfile";
     }
 }
