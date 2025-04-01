@@ -221,6 +221,62 @@
         WHERE follower_id = #{followerId} AND following_id = #{followingId}
     </select>
 
+    <!-- 사용자 프로필 정보 조회 -->
+    <select id="getUserProfile" parameterType="int" resultType="map">
+        SELECT user_id, user_name, profile_image
+        FROM USER
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 사용자별 게시물 조회 -->
+    <select id="getPostsByUserId" parameterType="int" resultType="map">
+        SELECT p.post_id, p.user_id, u.user_name, u.profile_image, p.style_category, p.title, p.content,
+        p.thumbnail_image_url, p.like_count, p.comment_count, p.view_count, p.save_count,
+        p.created_at, p.updated_at
+        FROM POST p
+        JOIN USER u ON p.user_id = u.user_id
+        WHERE p.user_id = #{userId}
+        ORDER BY p.created_at DESC
+    </select>
+
+    <!-- 저장한 게시물 조회 -->
+    <select id="getSavedPostsByUserId" parameterType="int" resultType="map">
+        SELECT p.post_id, p.user_id, u.user_name, u.profile_image, p.style_category, p.title, p.content,
+        p.thumbnail_image_url, p.like_count, p.comment_count, p.view_count, p.save_count,
+        p.created_at, p.updated_at
+        FROM POST p
+        JOIN USER u ON p.user_id = u.user_id
+        JOIN POST_SAVE ps ON p.post_id = ps.post_id
+        WHERE ps.user_id = #{userId}
+        ORDER BY p.created_at DESC
+    </select>
+
+    <!-- 좋아요한 게시물 조회 -->
+    <select id="getLikedPostsByUserId" parameterType="int" resultType="map">
+        SELECT p.post_id, p.user_id, u.user_name, u.profile_image, p.style_category, p.title, p.content,
+        p.thumbnail_image_url, p.like_count, p.comment_count, p.view_count, p.save_count,
+        p.created_at, p.updated_at
+        FROM POST p
+        JOIN USER u ON p.user_id = u.user_id
+        JOIN POST_LIKE pl ON p.post_id = pl.post_id
+        WHERE pl.user_id = #{userId}
+        ORDER BY p.created_at DESC
+    </select>
+
+    <!-- 팔로워 수 조회 -->
+    <select id="getFollowerCount" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM FOLLOW
+        WHERE following_id = #{userId}
+    </select>
+
+    <!-- 팔로잉 수 조회 -->
+    <select id="getFollowingCount" parameterType="int" resultType="int">
+        SELECT COUNT(*)
+        FROM FOLLOW
+        WHERE follower_id = #{userId}
+    </select>
+
     <!-- 좋아요 수 기준 상위 게시물 조회 -->
     <select id="getTopLikedPosts" parameterType="int" resultType="map">
         SELECT
