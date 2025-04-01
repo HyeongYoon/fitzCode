@@ -20,17 +20,17 @@
     <div class="mypageContent">
         <h2>구매 내역</h2>
         <div id="hr"></div>
-        <div th:each="entry : ${groupedOrders}" class="OrderList">
-            <div th:with="orderDetails=${entry.value}, firstItem=${orderDetails[0]}">
+        <div th:each="detail : ${groupedOrders}" class="OrderList">
+            <div>
                 <div class="subTitle">
-                <p><span th:text="${firstItem.formattedCreatedAt}" style="font-size: 17px;
+                <p><span th:text="${detail.formattedCreatedAt}" style="font-size: 17px;
     font-weight: bold; "></span> </p>
-                    <a th:href="@{/order/{orderId}(orderId=${firstItem.orderId})}" style="color: #888888">주문 상세</a>
+                    <a th:href="@{/order/{orderId}(orderId=${detail.orderId})}" style="color: #888888">주문 상세</a>
 
                 </div>
                 <table>
                     <tbody>
-                    <tr th:each="detail : ${orderDetails}">
+                    <tr>
                         <td><div class="productImage"><img th:src="${detail.imageUrl}" alt="Product Image" width="100"></div></td>
                         <td style="width: 280px; text-align: justify">
                             <div class="orderInfo">
