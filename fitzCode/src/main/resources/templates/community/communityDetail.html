@@ -15,8 +15,13 @@
             <img th:src="${profileImage != null ? profileImage : '/img/default-profile.png'}" alt="사용자 프로필"
                  class="profile-img">
             <div>
-                <strong th:text="${username}">사용자: </strong>
-                <img id="followBtn" th:src="${isFollowing ? '/img/removeuser.png' : '/img/adduser.png'}" alt="팔로우 버튼"
+                <a th:href="@{/community/user/profile/{userId}(userId=${post['user_id']})}" class="username-link">
+                    <strong th:text="${username}">사용자: </strong>
+                </a>
+                <img id="followBtn"
+                     th:if="${currentUser != null and currentUser.userId != post['user_id']}"
+                     th:src="${isFollowing ? '/img/removeuser.png' : '/img/adduser.png'}"
+                     alt="팔로우 버튼"
                      style="width: 20px; margin-left: 7px; cursor: pointer;"
                      th:data-following-id="${post['user_id']}">
                 <p th:text="'작성일: ' + ${#temporals.format(post['created_at'].toLocalDateTime(), 'yyyy-MM-dd HH:mm')}"
@@ -158,11 +163,11 @@
         const commentCountSpan = document.getElementById('commentCount');
         const followBtn = document.getElementById('followBtn');
 
-        // 팔로우 버튼 설정
-        if (currentUserId) {
-            fetch(`/api/community/check/${followingId}`, {
+        // 팔로우 버튼 설정 (본인이 아닌 경우에만 실행)
+        if (followBtn && currentUserId && currentUserId !== followingId) {
+            fetch(`/api/community/follow/check/${followingId}`, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {'Content-Type': 'application/json'}
             })
                 .then(response => response.json())
                 .then(data => {
@@ -175,35 +180,37 @@
                 });
         }
 
-        // 팔로우 버튼 클릭
-        followBtn.addEventListener('click', function () {
-            if (!currentUserId) {
-                alert('로그인이 필요합니다.');
-                return;
-            }
+        // 팔로우 버튼 클릭 (본인이 아닌 경우에만 실행)
+        if (followBtn) {
+            followBtn.addEventListener('click', function () {
+                if (!currentUserId) {
+                    alert('로그인이 필요합니다.');
+                    return;
+                }
 
-            const isFollowing = followBtn.src.includes('removeuser.png');
-            const url = isFollowing ? `/api/community/unfollow/${followingId}` : `/api/community/follow/${followingId}`;
-            const method = isFollowing ? 'DELETE' : 'POST';
+                const isFollowing = followBtn.src.includes('removeuser.png');
+                const url = isFollowing ? `/api/community/unfollow/${followingId}` : `/api/community/follow/${followingId}`;
+                const method = isFollowing ? 'DELETE' : 'POST';
 
-            fetch(url, {
-                method: method,
-                headers: { 'Content-Type': 'application/json' }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        followBtn.src = data.isFollowing ? '/img/removeuser.png' : '/img/adduser.png';
-                        showNotification(isFollowing ? '팔로우가 취소되었습니다.' : '팔로우되었습니다.');
-                    } else {
-                        alert(data.message || '팔로우 처리 실패');
-                    }
+                fetch(url, {
+                    method: method,
+                    headers: {'Content-Type': 'application/json'}
                 })
-                .catch(error => {
-                    console.error('에러 >>>>>>>:', error);
-                    alert('네트워크 오류');
-                });
-        });
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            followBtn.src = data.isFollowing ? '/img/removeuser.png' : '/img/adduser.png';
+                            showNotification(isFollowing ? '팔로우가 취소되었습니다.' : '팔로우되었습니다.');
+                        } else {
+                            alert(data.message || '팔로우 처리 실패');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('에러 >>>>>>>:', error);
+                        alert('네트워크 오류');
+                    });
+            });
+        }
 
         // 알림 표시
         function showNotification(message) {
@@ -450,7 +457,7 @@
                 <span class="like-count">${likeCount || 0}</span>
             `;
 
-            // 댓글 좋아요 이벤트
+            // 댓글 좋아요
             const likeCheckbox = commentDiv.querySelector('.like-checkbox');
             const likeCountSpan = commentDiv.querySelector('.like-count');
             likeCheckbox.addEventListener('change', function () {
@@ -460,7 +467,7 @@
                 console.log('Requesting:', url, 'Method:', isChecked ? 'POST' : 'DELETE');
                 fetch(url, {
                     method: isChecked ? 'POST' : 'DELETE',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: {'Content-Type': 'application/json'}
                 })
                     .then(response => response.json())
                     .then(data => {
@@ -485,7 +492,7 @@
                 commentList.appendChild(commentDiv);
             }
 
-            // 답글 버튼 이벤트
+            // 답글 버튼
             const replyBtn = commentDiv.querySelector('.reply-btn');
             const replyInput = commentDiv.querySelector('.reply-input');
             replyBtn.addEventListener('click', () => {
@@ -503,7 +510,7 @@
                 }
             });
 
-            // 수정 버튼 이벤트
+            // 수정 버튼
             if (isOwner) {
                 const editBtn = commentDiv.querySelector('.edit-btn');
                 const editInput = commentDiv.querySelector('.edit-input');
@@ -540,7 +547,7 @@
                 }
             }
 
-            // 삭제 버튼 이벤트
+            // 삭제 버튼
             if (isOwner) {
                 const deleteBtn = commentDiv.querySelector('.delete-btn');
                 deleteBtn.addEventListener('click', () => {
