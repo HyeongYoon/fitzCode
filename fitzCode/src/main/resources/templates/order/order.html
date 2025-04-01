@@ -35,7 +35,7 @@
             <table border="1">
                 <tbody>
                 <tr th:each="detail : ${orderDetailList}">
-                    <td><img th:src="${detail.imageUrl}" alt="Product Image" width="100"></td>
+                    <td><img th:src="${detail.imageUrl}" alt="Product Image" id="productImages"></td>
                     <td style="width: 280px; text-align: justify">
                         <div id="orderDetailList">
                             <h4 th:text="${detail.productName}"></h4>
@@ -46,6 +46,9 @@
                 </tr>
                 </tbody>
             </table>
+            <div id="toOrderList">
+                <a th:href="@{/orders}" style="color: #686868;">목록으로</a>
+            </div>
         </div>
 
 
