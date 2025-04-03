@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
+@ToString
 @Schema(description = "주문 정보")
 @Builder
 @AllArgsConstructor

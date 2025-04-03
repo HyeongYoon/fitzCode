@@ -64,6 +64,7 @@ public class OrderApiController {
                 .addressId(addressId)
                 .totalPrice(price)
                 .orderStatus(1)
+                .deliveryStatus(1)
                 .build();
 
         int orderId = orderService.insertNewOrder(orderDTO);
@@ -103,7 +104,7 @@ public class OrderApiController {
                 .build();
         String send = emailService.sendOrderConfirmationEmail(emailMessageDTO, orderDTO, list);
         log.info("send::::::::::::::::::: {}", send);
-
+        log.info(orderDTO.toString());
         return ResponseEntity.ok(orderDTO);
     }
 
@@ -153,6 +154,7 @@ public class OrderApiController {
                     .addressId(newAddressId)
                     .totalPrice(totalPrice)
                     .orderStatus(1)
+                    .deliveryStatus(1)
                     .build();
 
             int orderId = orderService.insertNewOrder(orderDTO);
