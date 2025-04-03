@@ -1,15 +1,18 @@
 package kr.co.fitzcode.common.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import kr.co.fitzcode.common.enums.DeliveryStatus;
 import kr.co.fitzcode.common.enums.OrderStatus;
 import lombok.*;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
+@ToString
 @Schema(description = "주문 정보")
 @Builder
 @AllArgsConstructor
@@ -49,8 +52,22 @@ public class OrderDTO {
     private LocalDateTime deliveredAt;
 
 
-    // 배송상태
+    // 주문 상태
     public OrderStatus getStatus() {
         return OrderStatus.fromCode(orderStatus);
+    }
+
+    // 배송 상태
+    public DeliveryStatus getDeliveryStatus() {
+        return DeliveryStatus.fromCode(deliveryStatus);
+    }
+
+    // 주문날짜 포맷팅
+    public String getFormattedCreatedAt() {
+        if (createdAt != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            return createdAt.format(formatter);
+        }
+        return "";
     }
 }

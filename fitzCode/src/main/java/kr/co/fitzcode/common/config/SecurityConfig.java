@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -36,15 +34,9 @@ public class SecurityConfig implements WebMvcConfigurer {
         return (request, response, accessDeniedException) -> response.sendRedirect("/access-denied");
     }
 
-    //    @Bean
-    //    public AuthenticationSuccessHandler successHandler() {
-    //        return new CustomAuthenticationSuccessHandler(userService);
-    //    }
-
     @Bean
     public AuthenticationFailureHandler failureHandler() {
         return (request, response, exception) -> {
-            System.out.println("Login 실패: " + exception.getMessage());
             response.sendRedirect("/login?error=true");
         };
     }
@@ -108,9 +100,12 @@ public class SecurityConfig implements WebMvcConfigurer {
                                     "/community/form/**",
                                     "/community/detail/**",
                                     "/api/community/search-products",
+                                    "/api/community/like/**",       // 좋아요 API
+                                    "/api/community/unlike/**",     // 좋아요 취소 API
                                     "/community/modify/**",
                                     "/checkEmail",                  // 이메일 중복 확인
-                                    "/checkNickname"                // 닉네임 중복 확인
+                                    "/checkNickname",               // 닉네임 중복 확인
+                                    "/community/api/styles"         // 인기 스타일 API
                             ).permitAll()
                             // 권한별 경로
                             .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
@@ -149,7 +144,7 @@ public class SecurityConfig implements WebMvcConfigurer {
                             .loginProcessingUrl("/login")
                             .usernameParameter("email")
                             .passwordParameter("password")
-                            .successHandler(customLoginSuccessHandler) // customLoginSuccessHandler 등록
+                            .successHandler(customLoginSuccessHandler)
                             .failureHandler(failureHandler())
                             .permitAll();
                 })
@@ -188,7 +183,8 @@ public class SecurityConfig implements WebMvcConfigurer {
                                         requestUri.equals("/products") || requestUri.equals("/styles") ||
                                         requestUri.equals("/notice") || requestUri.startsWith("/api/cart/") ||
                                         requestUri.equals("/search") || requestUri.equals("/search/result") ||
-                                        requestUri.equals("/api/pick-products") || requestUri.equals("/api/discount-products")) {
+                                        requestUri.equals("/api/pick-products") || requestUri.equals("/api/discount-products") ||
+                                        requestUri.startsWith("/community/") || requestUri.startsWith("/api/community/")) {
                                     return;
                                 }
                                 response.sendRedirect("/login");

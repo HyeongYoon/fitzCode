@@ -39,7 +39,7 @@
                 </div>
                 <div id="updateProfileLink">
                     <a th:href="@{/mypage/updateProfile}" th:if="${userDTO != null}">프로필 수정</a>
-<!--                    <p th:if="${userDTO == null}">프로필 수정 불가</p>-->
+                    <!--                    <p th:if="${userDTO == null}">프로필 수정 불가</p>-->
                 </div>
             </div>
             <div class="userShoppingInfo">
@@ -52,17 +52,22 @@
                                 <th>주문 상태</th>
                                 <th>주문 날짜</th>
                                 <th>배송 현황</th>
-                                <th>배송 현황</th>
+                                <th>배송 조회</th>
                                 <th></th>
                             </tr>
                             <tr th:each="dto : ${orderDTO}">
                                 <td th:text="${dto.orderId}"></td> <!-- 주문 번호 -->
-                                <td th:text="${dto.getStatus().description}"></td> <!-- 배송 상태 -->
+                                <td th:text="${dto.getStatus().description}"></td> <!-- 주문 상태 -->
+                                <td th:text="${dto.formattedCreatedAt}"></td> <!-- 주문 날짜 -->
                                 <th:block th:if="${dto.trackingNumber != null}"> <!-- 운송장 번호 -->
+                                    <td th:text="${dto.deliveryStatus.description}"></td>
                                     <td style="padding: 0px">
                                         <button class="searchTracking">배송조회</button>
                                         <input type="hidden" id="trackingNumber" th:value="${dto.trackingNumber}">
                                     </td>
+                                </th:block>
+                                <th:block th:unless="${dto.trackingNumber != null}">
+                                    <td style="padding: 0px; color: #888888">-</td>
                                 </th:block>
                             </tr>
                         </table>

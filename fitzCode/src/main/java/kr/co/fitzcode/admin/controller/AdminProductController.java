@@ -119,7 +119,6 @@ public class AdminProductController {
     @GetMapping("/categories/child")
     @ResponseBody
     public List<ProductCategoryDTO> getChildCategories(@RequestParam("parentId") Long parentId) {
-        System.out.println("parentId: " + parentId + "에 대한 하위 카테고리 조회");
         return productService.getChildCategories(parentId);
     }
 

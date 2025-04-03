@@ -1,10 +1,13 @@
 package kr.co.fitzcode.community.controller;
 
-import groovy.util.logging.Slf4j;
 import jakarta.servlet.http.HttpSession;
 import kr.co.fitzcode.common.dto.*;
 import kr.co.fitzcode.community.service.CommunityService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +44,7 @@ public class CommunityController {
         }
 
         model.addAttribute("posts", posts);
+        model.addAttribute("isLoggedIn", userDTO != null);
         return "community/communityList";
     }
 
@@ -92,7 +96,6 @@ public class CommunityController {
     // 상세 페이지 이동
     @GetMapping("/detail/{postId}")
     public String getPostDetail(@PathVariable("postId") int postId, Model model, HttpSession session) {
-        // 게시물 정보 조회
         Map<String, Object> post = communityService.getPostDetail(postId);
         if (post == null) {
             return "error";
@@ -102,7 +105,7 @@ public class CommunityController {
         int currentUserId = (userDTO != null) ? userDTO.getUserId() : -1;
 
         int postUserId = ((Number) post.get("user_id")).intValue();
-        System.out.println("Post user_id>>>>>>>>>>>>>> " + postUserId);
+        log.info("Post user_id {}", postUserId);
 
         boolean isOwnPost = currentUserId != -1 && currentUserId == postUserId;
 
@@ -121,7 +124,6 @@ public class CommunityController {
         boolean isSaved = currentUserId != -1 && communityService.isSaved(postId, currentUserId);
         int saveCount = communityService.countPostSaves(postId);
 
-        // 모델에 데이터 추가..
         model.addAttribute("post", post);
         model.addAttribute("productTags", productTags);
         model.addAttribute("otherStyles", otherStyles);
@@ -193,5 +195,65 @@ public class CommunityController {
     public String deletePost(@PathVariable("postId") int postId) {
         communityService.deletePost(postId);
         return "redirect:/community/list";
+    }
+
+    // 좋아요 수 기준 상위 4개 스타일 조회
+    @GetMapping("/api/styles")
+    @ResponseBody
+    @PreAuthorize("permitAll()")
+    public ResponseEntity<List<Map<String, Object>>> getTopLikedStyles(
+            @RequestParam(value = "sort", defaultValue = "likes") String sort,
+            @RequestParam(value = "limit", defaultValue = "4") int limit,
+            HttpSession session) {
+        try {
+            UserDTO userDTO = (UserDTO) session.getAttribute("dto");
+            int userId = (userDTO != null) ? userDTO.getUserId() : -1;
+
+            List<Map<String, Object>> posts = communityService.getTopLikedPosts(limit);
+            for (Map<String, Object> post : posts) {
+                int postId = (int) post.get("post_id");
+                boolean isLiked = userId != -1 && communityService.isLiked(postId, userId);
+                post.put("isLiked", isLiked);
+            }
+
+            return ResponseEntity.ok(posts);
+        } catch (Exception e) {
+            log.error("인기 스타일 조회 중 오류 발생: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    // 사용자 프로필 조회 (두 번째 코드에서 추가된 부분)
+    @GetMapping("/user/profile/{userId}")
+    public String getUserProfile(@PathVariable("userId") int userId, Model model, HttpSession session) {
+        Map<String, Object> userProfile = communityService.getUserProfile(userId);
+        if (userProfile == null) {
+            return "error";
+        }
+
+        List<Map<String, Object>> userPosts = communityService.getPostsByUserId(userId);
+        List<Map<String, Object>> savedPosts = communityService.getSavedPostsByUserId(userId);
+        List<Map<String, Object>> likedPosts = communityService.getLikedPostsByUserId(userId);
+
+        UserDTO currentUserDTO = (UserDTO) session.getAttribute("dto");
+        int currentUserId = (currentUserDTO != null) ? currentUserDTO.getUserId() : -1;
+
+        boolean isFollowing = currentUserId != -1 && communityService.isFollowing(currentUserId, userId);
+        boolean isOwnProfile = currentUserId != -1 && currentUserId == userId;
+
+        int followerCount = communityService.getFollowerCount(userId);
+        int followingCount = communityService.getFollowingCount(userId);
+
+        model.addAttribute("user", userProfile);
+        model.addAttribute("userPosts", userPosts);
+        model.addAttribute("savedPosts", savedPosts);
+        model.addAttribute("likedPosts", likedPosts);
+        model.addAttribute("currentUser", currentUserDTO);
+        model.addAttribute("isFollowing", isFollowing);
+        model.addAttribute("isOwnProfile", isOwnProfile);
+        model.addAttribute("followerCount", followerCount);
+        model.addAttribute("followingCount", followingCount);
+
+        return "community/userProfile";
     }
 }

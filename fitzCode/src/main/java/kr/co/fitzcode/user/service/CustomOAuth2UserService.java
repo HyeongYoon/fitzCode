@@ -9,6 +9,7 @@ import kr.co.fitzcode.common.dto.UserDTO;
 import kr.co.fitzcode.common.enums.UserRole;
 import kr.co.fitzcode.user.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserMapper userMapper;
@@ -31,7 +33,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2User oAuth2User = super.loadUser(userRequest);
 
         String registerId = userRequest.getClientRegistration().getRegistrationId();
-        System.out.println("registerId >>>>>>>>>>>>>>>>>>>>> " + registerId);
+        log.info("registerId {}", registerId);
 
         HttpSession session = request.getSession();
 
@@ -88,7 +90,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         session.setAttribute("dto", user);
-        System.out.println("Returning CustomOAuth2User with userId=" + dbUserId + ", roles=" + roles);
+        log.info("CustomOAuth2User with userId={}, roles={}", dbUserId, roles);
         return new CustomOAuth2User(oAuth2Response, roles, dbUserId);
     }
 }

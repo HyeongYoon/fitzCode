@@ -104,6 +104,11 @@ body {
     margin-top: 0;
 }
 
+
+.username-link:hover span {
+    color: #676767;
+}
+
 .card-footer {
     display: flex;
     flex-direction: column;

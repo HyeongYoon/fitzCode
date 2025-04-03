@@ -24,24 +24,28 @@
         <form action="/login" method="post" class="verifyContent">
             <div class="myInfo">
                 <th:block th:if="${dto.password != null}">
-                <div class="verifyForm">
-                    <div><p>이메일</p><input type="text" name="email"></div>
-                    <div><p>비밀번호</p><input type="password" name="password"></div>
-                    <button type="submit">인증하기</button>
-                </div>
-                </th:block>
-                <th:block th:unless="${dto.password != null}">
                     <div class="verifyForm">
-                        <div>로그인시 사용하신 인증수단으로 로그인하십시오</div>
+                        <div><p>이메일</p><input type="text" name="email"></div>
+                        <div><p>비밀번호</p><input type="password" name="password"></div>
+                        <button type="submit">인증하기</button>
                     </div>
+                    <div class="social-login">
+                        <a href="/oauth2/authorization/kakao"><img class="kakao-icon" src="/img/kakao_icon.png"
+                                                                   alt="Kakao Logo"></a>
+                        <a href="/oauth2/authorization/google"><img class="google-icon" src="/img/google_icon.png"
+                                                                    alt="Google Logo"></a>
+                        <a href="/oauth2/authorization/naver"><img class="naver-icon" src="/img/naver_icon.png"
+                                                                   alt="Naver Logo"></a>
+                    </div>
+                    <input type="hidden" th:value="${session.prevPage}">
                 </th:block>
             </div>
-            <div class="social-login">
-                <a href="/oauth2/authorization/kakao"><img class="kakao-icon" src="/img/kakao_icon.png" alt="Kakao Logo"></a>
-                <a href="/oauth2/authorization/google"><img class="google-icon" src="/img/google_icon.png" alt="Google Logo"></a>
-                <a href="/oauth2/authorization/naver"><img class="naver-icon" src="/img/naver_icon.png" alt="Naver Logo"></a>
-            </div>
-            <input type="hidden" th:value="${session.prevPage}">
+
+            <th:block th:unless="${dto.password != null}">
+                <div class="verifyForm">
+                    <div>소셜로 회원가입하신 고객은 회원정보 변경이 불가합니다</div>
+                </div>
+            </th:block>
         </form>
     </div>
 

@@ -1098,3 +1098,12 @@ main {
     border-radius: 3px;
     cursor: pointer;
 }
+
+.username-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.username-link:hover strong {
+    color: #676767;
+}
