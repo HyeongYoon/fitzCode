@@ -36,7 +36,6 @@ public class OrderDTO {
     private LocalDateTime updatedAt;
 
 
-
     @Schema(description = "운송장 번호")
     private String trackingNumber;
 
